@@ -8,6 +8,7 @@ interface User extends UserProfile {
 interface AuthContextType {
   user: User | null;
   token: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginRequest) => Promise<void>;
@@ -15,8 +16,10 @@ interface AuthContextType {
   logout: () => Promise<void>;
   changePassword: (passwordData: ChangePasswordRequest) => Promise<void>;
   requestPasswordReset: (resetData: ResetPasswordRequest) => Promise<void>;
+  refreshAccessToken: () => Promise<boolean>;
   error: string | null;
   clearError: () => void;
+  sessionInfo: any;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,29 +31,51 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sessionInfo, setSessionInfo] = useState<any>(null);
 
   // Initialize auth state from localStorage
   useEffect(() => {
-    const initializeAuth = () => {
+    const initializeAuth = async () => {
       try {
-        const storedToken = authService.getStoredToken();
+        const storedAccessToken = authService.getStoredAccessToken();
+        const storedRefreshToken = authService.getStoredRefreshToken();
         const storedUser = authService.getStoredUser();
         
-        if (storedToken && storedUser) {
-          setToken(storedToken);
-          // Compute name from first_name and last_name
-          const userWithName = {
-            ...storedUser,
-            name: `${storedUser.first_name || ''} ${storedUser.last_name || ''}`.trim() || storedUser.email
-          };
-          setUser(userWithName);
+        if (storedAccessToken && storedRefreshToken && storedUser) {
+          // Check if tokens are valid and refresh if needed
+          const validAccessToken = await authService.getValidAccessToken();
+          
+          if (validAccessToken) {
+            setToken(validAccessToken);
+            setRefreshToken(authService.getStoredRefreshToken());
+            
+            // Compute name from first_name and last_name
+            const userWithName = {
+              ...storedUser,
+              name: `${storedUser.first_name || ''} ${storedUser.last_name || ''}`.trim() || storedUser.email
+            };
+            setUser(userWithName);
+
+            // Get session info
+            try {
+              const sessionData = await authService.getSessionStatus(validAccessToken);
+              setSessionInfo(sessionData);
+            } catch (error) {
+              console.warn('Could not fetch session info:', error);
+            }
+          } else {
+            // Tokens are invalid, clear everything
+            authService.removeTokens();
+            authService.removeUser();
+          }
         }
       } catch (error) {
         console.error('Error initializing auth:', error);
         // Clear invalid data
-        authService.removeToken();
+        authService.removeTokens();
         authService.removeUser();
       } finally {
         setIsLoading(false);
@@ -60,6 +85,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     initializeAuth();
   }, []);
 
+  // Auto-refresh token before expiry
+  useEffect(() => {
+    if (!token || !refreshToken) return;
+
+    const checkTokenExpiry = async () => {
+      try {
+        const validToken = await authService.getValidAccessToken();
+        if (validToken && validToken !== token) {
+          setToken(validToken);
+        } else if (!validToken) {
+          // Tokens are invalid, logout
+          await logout();
+        }
+      } catch (error) {
+        console.error('Token refresh check failed:', error);
+        await logout();
+      }
+    };
+
+    // Check token expiry every 5 minutes
+    const interval = setInterval(checkTokenExpiry, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [token, refreshToken]);
+
   const login = async (credentials: LoginRequest) => {
     try {
       setIsLoading(true);
@@ -67,8 +116,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       const response = await authService.login(credentials);
       
-      // Store token and user data
-      authService.storeToken(response.token);
+      // Store tokens and user data
+      authService.storeTokens(
+        response.access,
+        response.refresh,
+        response.access_expires_at,
+        response.refresh_expires_at
+      );
       authService.storeUser(response.user);
       
       // Compute name from first_name and last_name
@@ -77,8 +131,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: `${response.user.first_name || ''} ${response.user.last_name || ''}`.trim() || response.user.email
       };
       
-      setToken(response.token);
+      setToken(response.access);
+      setRefreshToken(response.refresh);
       setUser(userWithName);
+      setSessionInfo({
+        session_id: response.session_id,
+        max_sessions: response.max_sessions,
+        active_sessions_count: response.active_sessions_count
+      });
       
       // Store legacy auth for backward compatibility
       localStorage.setItem('kmrl-auth', 'true');
@@ -98,8 +158,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       const response = await authService.getToken(credentials);
       
-      // Store token and user data
-      authService.storeToken(response.token);
+      // Store tokens and user data
+      authService.storeTokens(
+        response.access,
+        response.refresh,
+        response.access_expires_at,
+        response.refresh_expires_at
+      );
       authService.storeUser(response.user);
       
       // Compute name from first_name and last_name
@@ -108,8 +173,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: `${response.user.first_name || ''} ${response.user.last_name || ''}`.trim() || response.user.email
       };
       
-      setToken(response.token);
+      setToken(response.access);
+      setRefreshToken(response.refresh);
       setUser(userWithName);
+      setSessionInfo({
+        session_id: response.session_id,
+        max_sessions: response.max_sessions,
+        active_sessions_count: response.active_sessions_count
+      });
       
       // Store legacy auth for backward compatibility
       localStorage.setItem('kmrl-auth', 'true');
@@ -127,10 +198,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       setError(null);
       
-      // Call logout API if token exists
-      if (token) {
+      // Call logout API if tokens exist
+      if (token && refreshToken) {
         try {
-          await authService.logout(token);
+          await authService.logout(token, refreshToken);
         } catch (error) {
           // Even if API call fails, we should still clear local data
           console.warn('Logout API call failed:', error);
@@ -138,12 +209,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
       
       // Clear all stored data
-      authService.removeToken();
+      authService.removeTokens();
       authService.removeUser();
       localStorage.removeItem('kmrl-auth'); // Legacy compatibility
       
       setToken(null);
+      setRefreshToken(null);
       setUser(null);
+      setSessionInfo(null);
       
     } catch (error: any) {
       setError(error.message || 'Logout failed.');
@@ -187,15 +260,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const refreshAccessToken = async (): Promise<boolean> => {
+    try {
+      const validToken = await authService.getValidAccessToken();
+      if (validToken) {
+        setToken(validToken);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      return false;
+    }
+  };
+
   const clearError = () => {
     setError(null);
   };
 
-  const isAuthenticated = !!token && !!user;
+  const isAuthenticated = !!token && !!refreshToken && !!user;
 
   const value: AuthContextType = {
     user,
     token,
+    refreshToken,
     isAuthenticated,
     isLoading,
     login,
@@ -203,8 +291,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logout,
     changePassword,
     requestPasswordReset,
+    refreshAccessToken,
     error,
     clearError,
+    sessionInfo,
   };
 
   return (
@@ -223,4 +313,3 @@ export const useAuth = (): AuthContextType => {
 };
 
 export default AuthContext;
-

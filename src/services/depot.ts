@@ -1,5 +1,5 @@
 // Depot Management API Service
-const BASE_URL = 'http://localhost:8000/api/v1/depot-management';
+const BASE_URL = 'https://kmrl-backend-qjvw.onrender.com/api/v1/depot-management';
 
 export interface Depot {
   id: string;
@@ -183,7 +183,7 @@ class DepotService {
     };
     
     if (token) {
-      headers['Authorization'] = `Token ${token}`;
+      headers['Authorization'] = `Bearer ${token}`;
     }
     
     return headers;

@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@/contexts/AuthContext";
+import SessionManager from "@/components/session/SessionManager";
 
 interface TopHeaderProps {
   currentTime: Date;
@@ -33,7 +34,7 @@ interface TopHeaderProps {
 
 const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSidebar }) => {
   const isMobile = useIsMobile();
-  const { user } = useAuth();
+  const { user, sessionInfo } = useAuth();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
@@ -366,11 +367,30 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
                     <p className="text-xs text-muted-foreground">Role</p>
                     <div className="flex items-center space-x-2">
                       <Badge variant="secondary" className="text-xs">
-                        {user?.role || 'User'}
+                        {user?.role ? (typeof user.role === 'object' ? user.role.name : user.role) : user?.designation || 'User'}
                       </Badge>
                     </div>
                   </div>
                 </div>
+                
+                {sessionInfo && (
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs text-muted-foreground">Session</p>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-medium">
+                          {sessionInfo.active_sessions_count}/{sessionInfo.max_sessions} active
+                        </span>
+                        {sessionInfo.is_expiring_soon && (
+                          <Badge variant="destructive" className="text-xs">
+                            Expiring Soon
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               
               {/* Action Buttons */}
@@ -388,6 +408,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
             </div>
           </PopoverContent>
         </Popover>
+
+        {/* Session Manager */}
+        <SessionManager />
 
         {/* Logout */}
         <Button variant="ghost" size="sm" onClick={handleLogoutClick} className="h-8 w-8 sm:h-9 sm:w-9 p-0">

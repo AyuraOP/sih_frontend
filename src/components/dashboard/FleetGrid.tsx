@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAuthInterceptor } from "@/hooks/use-auth-interceptor";
 import { fleetService, Trainset } from "@/services/fleet";
 import { toast } from "@/hooks/use-toast";
 import { 
@@ -57,6 +58,7 @@ interface FleetGridProps {
 
 const FleetGrid = ({ detailed = false }: FleetGridProps) => {
   const { token } = useAuth();
+  const { authenticatedFetch } = useAuthInterceptor();
   const [trainsets, setTrainsets] = useState<Trainset[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTrain, setSelectedTrain] = useState<Trainset | null>(null);

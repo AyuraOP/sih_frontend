@@ -33,11 +33,13 @@ import {
   Zap
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAuthInterceptor } from "@/hooks/use-auth-interceptor";
 import { fleetService, Trainset, TrainsetType, Component, PerformanceMetrics, FleetOverview } from "@/services/fleet";
 import { toast } from "@/hooks/use-toast";
 
 const FleetManagement = () => {
   const { token } = useAuth();
+  const { authenticatedFetch } = useAuthInterceptor();
   const [trainsets, setTrainsets] = useState<Trainset[]>([]);
   const [trainsetTypes, setTrainsetTypes] = useState<TrainsetType[]>([]);
   const [components, setComponents] = useState<Component[]>([]);

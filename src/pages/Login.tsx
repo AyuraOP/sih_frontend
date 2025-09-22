@@ -200,6 +200,9 @@ const Login = () => {
                   <span className="hidden sm:inline"> or </span>
                   any valid email / 1234
                 </p>
+                <p className="text-xs text-blue-700 text-center mt-2">
+                  <strong>JWT Authentication:</strong> Secure session management with automatic token refresh
+                </p>
               </div>
 
               <div className="mt-4 text-center">

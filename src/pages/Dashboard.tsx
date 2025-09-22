@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAuthInterceptor } from "@/hooks/use-auth-interceptor";
 import FleetGrid from "@/components/dashboard/FleetGrid";
 import KPICards from "@/components/dashboard/KPICards";
 import InductionPlanner from "@/components/dashboard/InductionPlanner";
@@ -14,12 +15,14 @@ import TonightsInductionPlan from "@/components/dashboard/TonightsInductionPlan"
 import ScheduleAdjustment from "@/components/dashboard/ScheduleAdjustment";
 import Sidebar from "@/components/layout/Sidebar";
 import TopHeader from "@/components/layout/TopHeader";
+import SessionWarning from "@/components/auth/SessionWarning";
 import { useIsMobile } from "@/hooks/use-mobile";
 import DepotManagement from "./DepotManagement";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const { user, logout, isAuthenticated, isLoading, sessionInfo } = useAuth();
+  const { authenticatedFetch } = useAuthInterceptor();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -38,6 +41,13 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, [navigate, isAuthenticated, isLoading]);
 
+  // Check for session expiry warnings
+  useEffect(() => {
+    if (sessionInfo?.is_expiring_soon) {
+      // Show warning about session expiry
+      console.warn('Session expiring soon');
+    }
+  }, [sessionInfo]);
   const handleLogout = async () => {
     try {
       await logout();
@@ -184,6 +194,8 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen flex bg-background">
+      <SessionWarning />
+      
       {/* Sidebar */}
       <Sidebar 
         activeTab={activeTab}

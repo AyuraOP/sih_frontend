@@ -33,12 +33,13 @@ import {
   Route
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAuthInterceptor } from "@/hooks/use-auth-interceptor";
 import { depotService, Depot, StablingBay, CleaningSlot, ShuntingPlan, DepotEvent } from "@/services/depot";
 import { toast } from "@/hooks/use-toast";
 
 const DepotManagement = () => {
   const { token } = useAuth();
-  console.log(token)
+  const { authenticatedFetch } = useAuthInterceptor();
   const [depots, setDepots] = useState<Depot[]>([]);
   const [stablingBays, setStablingBays] = useState<StablingBay[]>([]);
   const [cleaningSlots, setCleaningSlots] = useState<CleaningSlot[]>([]);
@@ -50,7 +51,6 @@ const DepotManagement = () => {
   const [showCreateDepotDialog, setShowCreateDepotDialog] = useState(false);
   const [newDepot, setNewDepot] = useState<Partial<Depot>>({});
 
-  console.log(token)
   useEffect(() => {
     if (token) {
       loadDepotData();

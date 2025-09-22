@@ -1,5 +1,5 @@
 // Fleet Management API Service
-const BASE_URL = 'https://kmrl-backend-qjvw.onrender.com/api/v1/fleet_management';
+const BASE_URL = 'https://kmrl-backend-qjvw.onrender.com/api/v1/fleet-management';
 
 export interface TrainsetType {
   id: string;
@@ -147,7 +147,7 @@ class FleetService {
     };
     
     if (token) {
-      headers['Authorization'] = `Token ${token}`;
+      headers['Authorization'] = `Bearer ${token}`;
     }
     
     return headers;
