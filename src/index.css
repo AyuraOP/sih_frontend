@@ -1,0 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Kochi Metro Rail Fleet Management Design System */
+
+@layer base {
+  :root {
+    /* Government Professional Theme */
+    --background: 0 0% 100%;
+    --foreground: 215 25% 27%;
+
+    /* Navy Blue Government Primary */
+    --primary: 220 91% 18%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 220 91% 15%;
+    --primary-light: 220 91% 95%;
+
+    /* Secondary Colors */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 9% 46%;
+    --secondary-hover: 220 14% 91%;
+
+    /* Status Colors for Train Fleet */
+    --status-ready: 142 71% 45%;      /* Green - Ready */
+    --status-standby: 45 93% 47%;     /* Yellow - Standby */
+    --status-maintenance: 0 84% 60%;   /* Red - Maintenance */
+    --status-service: 217 91% 60%;     /* Blue - In Service */
+    --status-cleaning: 280 100% 70%;   /* Purple - Cleaning */
+
+    /* Neutral Grays */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+
+    /* Cards and Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+    --card-border: 220 13% 91%;
+
+    /* Interactive Elements */
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 9% 46%;
+    --ring: 220 91% 18%;
+
+    /* Alerts and Notifications */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 45 30% 11%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(220 91% 18%), hsl(220 91% 25%));
+    --gradient-secondary: linear-gradient(135deg, hsl(220 14% 96%), hsl(220 14% 91%));
+    --gradient-header: linear-gradient(90deg, hsl(220 91% 18%), hsl(220 91% 22%));
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(220 43% 11% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(220 43% 11% / 0.1), 0 2px 4px -1px hsl(220 43% 11% / 0.06);
+    --shadow-lg: 0 10px 15px -3px hsl(220 43% 11% / 0.1), 0 4px 6px -2px hsl(220 43% 11% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(220 43% 11% / 0.1), 0 10px 10px -5px hsl(220 43% 11% / 0.04);
+
+    /* Animations */
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 0.5rem;
+    --radius-sm: 0.25rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+  }
+
+  .dark {
+    --background: 220 27% 8%;
+    --foreground: 220 9% 89%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 220 27% 8%;
+    --card: 220 27% 12%;
+    --card-foreground: 220 9% 89%;
+    --muted: 220 27% 15%;
+    --muted-foreground: 220 9% 60%;
+    --border: 220 27% 18%;
+    --input: 220 27% 18%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Government Professional Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  /* Status Indicators */
+  .status-ready {
+    @apply bg-green-500 text-white;
+  }
+  
+  .status-standby {
+    @apply bg-yellow-500 text-yellow-900;
+  }
+  
+  .status-maintenance {
+    @apply bg-red-500 text-white;
+  }
+  
+  .status-service {
+    @apply bg-blue-500 text-white;
+  }
+  
+  .status-cleaning {
+    @apply bg-purple-500 text-white;
+  }
+
+  /* Government Form Styles */
+  .form-field {
+    @apply relative;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-foreground mb-2;
+  }
+
+  .form-input {
+    @apply w-full px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200;
+  }
+
+  /* Professional Animations */
+  .fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Professional Dashboard Layouts */
+  .dashboard-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+  }
+
+  .kpi-card {
+    @apply bg-card border border-card-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  /* Professional Buttons */
+  .btn-government {
+    @apply bg-primary hover:bg-primary-hover text-primary-foreground px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondary-hover text-secondary-foreground px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
