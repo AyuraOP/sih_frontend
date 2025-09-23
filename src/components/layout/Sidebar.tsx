@@ -3,7 +3,9 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
-  BarChart3, 
+  BarChart3,
+  Activity,
+  User, 
   Train, 
   Calendar, 
   Wrench, 

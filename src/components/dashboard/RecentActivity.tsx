@@ -19,7 +19,7 @@ import {
 
 const RecentActivity = () => {
   const { token } = useAuth();
-  const [activities, setActivities] = useState<any[]>([]);
+  // const [activities, setActivities] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const RecentActivity = () => {
     try {
       setLoading(true);
       const response = await userService.getUserActivities(token!, { page_size: 10, ordering: '-created_at' });
-      setActivities(response.results || []);
+      // setActivities(response.results || []);
     } catch (error) {
       console.error('Error loading activities:', error);
       // Keep mock data if API fails

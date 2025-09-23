@@ -359,9 +359,9 @@ const AnalyticsDashboard = () => {
                       Refresh
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => exportData('performance')}>
-                    <span className="text-sm">Revenue Hours</span>
-                    <span className="font-medium">18.5 hrs/day</span>
-                  </div>
+                      <span className="text-sm">Revenue Hours</span>
+                      <span className="font-medium">18.5 hrs/day</span>
+                    </Button>
                   </div>
                 </div>
               </CardContent>

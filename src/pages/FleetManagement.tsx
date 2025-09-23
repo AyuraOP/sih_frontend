@@ -353,7 +353,7 @@ const FleetManagement = () => {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Availability</p>
-                  <p className="text-2xl font-bold">{fleetOverview.average_availability.toFixed(1)}%</p>
+                  <p className="text-2xl font-bold">{fleetOverview.average_availability}%</p>
                 </div>
               </div>
             </CardContent>
@@ -366,7 +366,7 @@ const FleetManagement = () => {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Punctuality</p>
-                  <p className="text-2xl font-bold">{fleetOverview.average_punctuality.toFixed(1)}%</p>
+                  <p className="text-2xl font-bold">{fleetOverview.average_punctuality}%</p>
                 </div>
               </div>
             </CardContent>
@@ -446,7 +446,7 @@ const FleetManagement = () => {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Service Availability</span>
-                  <span className="font-medium">{trainset.service_availability.toFixed(1)}%</span>
+                  <span className="font-medium">{trainset.service_availability}%</span>
                 </div>
                 <Progress value={trainset.service_availability} className="h-2" />
               </div>
@@ -454,7 +454,7 @@ const FleetManagement = () => {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Punctuality Score</span>
-                  <span className="font-medium">{trainset.punctuality_score.toFixed(1)}%</span>
+                  <span className="font-medium">{trainset.punctuality_score}%</span>
                 </div>
                 <Progress value={trainset.punctuality_score} className="h-2" />
               </div>
@@ -578,14 +578,14 @@ const FleetManagement = () => {
                       <Label>Service Availability</Label>
                       <div className="flex items-center space-x-2 mt-2">
                         <Progress value={selectedTrainset.service_availability} className="flex-1" />
-                        <span className="text-sm font-medium">{selectedTrainset.service_availability.toFixed(1)}%</span>
+                        <span className="text-sm font-medium">{selectedTrainset.service_availability}%</span>
                       </div>
                     </div>
                     <div>
                       <Label>Punctuality Score</Label>
                       <div className="flex items-center space-x-2 mt-2">
                         <Progress value={selectedTrainset.punctuality_score} className="flex-1" />
-                        <span className="text-sm font-medium">{selectedTrainset.punctuality_score.toFixed(1)}%</span>
+                        <span className="text-sm font-medium">{selectedTrainset.punctuality_score}%</span>
                       </div>
                     </div>
                   </div>
