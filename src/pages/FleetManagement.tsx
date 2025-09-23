@@ -106,6 +106,50 @@ const FleetManagement = () => {
     }
   };
 
+  const handleDeleteTrainset = async (trainsetId: string) => {
+    try {
+      // Note: Delete endpoint not available in API, using status update instead
+      await fleetService.updateServiceStatus(token!, trainsetId, 'OUT_OF_SERVICE', 'Trainset decommissioned');
+      toast({
+        title: "Success",
+        description: "Trainset marked as out of service",
+      });
+      loadFleetData();
+    } catch (error: any) {
+      toast({
+        title: "Error Updating Trainset",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleExportData = async () => {
+    try {
+      const data = await fleetService.getTrainsets(token!, { format: 'json', page_size: 1000 });
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `fleet-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Success",
+        description: "Fleet data exported successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error Exporting Data",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleUpdateServiceStatus = async (trainsetId: string, status: string, reason?: string) => {
     try {
       await fleetService.updateServiceStatus(token!, trainsetId, status, reason);
@@ -358,7 +402,7 @@ const FleetManagement = () => {
                 <SelectItem value="TESTING">Testing</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleExportData}>
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
@@ -436,6 +480,13 @@ const FleetManagement = () => {
                   </Button>
                   <Button size="sm" variant="outline">
                     <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => handleDeleteTrainset(trainset.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>

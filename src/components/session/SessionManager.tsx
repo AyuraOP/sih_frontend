@@ -77,7 +77,7 @@ const SessionManager: React.FC<SessionManagerProps> = ({ onSessionTerminated }) 
 
   const terminateAllOtherSessions = async () => {
     try {
-      await authService.terminateSession(token!, undefined, true);
+      await authService.terminateSession(token!, '', true);
       toast({
         title: "Sessions Terminated",
         description: "All other sessions have been terminated",

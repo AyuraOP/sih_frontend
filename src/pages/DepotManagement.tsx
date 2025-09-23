@@ -120,6 +120,74 @@ const DepotManagement = () => {
     }
   };
 
+  const handleDeleteDepot = async (depotId: string) => {
+    try {
+      await depotService.deleteDepot(token!, depotId);
+      toast({
+        title: "Success",
+        description: "Depot deleted successfully",
+      });
+      loadDepotData();
+    } catch (error: any) {
+      toast({
+        title: "Error Deleting Depot",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleAssignTrainset = async (bayId: string, trainsetId: string) => {
+    try {
+      await depotService.assignTrainsetToBay(token!, bayId, trainsetId);
+      toast({
+        title: "Success",
+        description: "Trainset assigned to bay successfully",
+      });
+      loadDepotData();
+    } catch (error: any) {
+      toast({
+        title: "Error Assigning Trainset",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleReleaseTrainset = async (bayId: string) => {
+    try {
+      await depotService.releaseTrainsetFromBay(token!, bayId);
+      toast({
+        title: "Success",
+        description: "Trainset released from bay successfully",
+      });
+      loadDepotData();
+    } catch (error: any) {
+      toast({
+        title: "Error Releasing Trainset",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleResolveEvent = async (eventId: string, notes: string) => {
+    try {
+      await depotService.resolveEvent(token!, eventId, notes);
+      toast({
+        title: "Success",
+        description: "Event resolved successfully",
+      });
+      loadDepotData();
+    } catch (error: any) {
+      toast({
+        title: "Error Resolving Event",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const getDepotStatusColor = (status: string) => {
     switch (status) {
       case 'OPERATIONAL': return 'bg-success text-success-foreground';
@@ -426,6 +494,13 @@ const DepotManagement = () => {
                       <Button size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
                       </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleDeleteDepot(depot.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
 
@@ -535,6 +610,24 @@ const DepotManagement = () => {
                       <Button size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
                       </Button>
+                      {bay.status === 'AVAILABLE' && (
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleAssignTrainset(bay.id, 'KMRL-001')}
+                        >
+                          Assign
+                        </Button>
+                      )}
+                      {bay.status === 'OCCUPIED' && (
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleReleaseTrainset(bay.id)}
+                        >
+                          Release
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </CardContent>
@@ -675,6 +768,18 @@ const DepotManagement = () => {
                           {event.trainset && <span>Trainset: {event.trainset}</span>}
                           {event.stabling_bay && <span>Bay: {event.stabling_bay}</span>}
                         </div>
+                        {!event.is_resolved && (
+                          <div className="mt-3 pt-3 border-t border-border">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleResolveEvent(event.id, 'Resolved from dashboard')}
+                            >
+                              <CheckCircle className="h-4 w-4 mr-1" />
+                              Resolve Event
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}

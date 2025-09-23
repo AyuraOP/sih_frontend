@@ -17,6 +17,11 @@ import Sidebar from "@/components/layout/Sidebar";
 import TopHeader from "@/components/layout/TopHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import DepotManagement from "./DepotManagement";
+import FleetManagement from "./FleetManagement";
+import { User, Activity } from "lucide-react";
+import ComponentManagement from "./ComponentManagement";
+import MileageManagement from "./MileageManagement";
+import ProfileManagement from "./ProfileManagement";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -114,11 +119,7 @@ const Dashboard = () => {
       case "fleet":
         return (
           <div className="space-y-4 sm:space-y-6">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">{t('dashboard.fleetManagement')}</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">{t('dashboard.fleetDescription')}</p>
-            </div>
-            <FleetGrid detailed />
+            <FleetManagement />
           </div>
         );
       case "scheduling":
@@ -131,14 +132,28 @@ const Dashboard = () => {
             <InductionPlanner />
           </div>
         );
-      case "depot":
+      case "depotManagement":
         return (
           <div className="space-y-4 sm:space-y-6">
-            <div>
-              {/* <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Depot Management</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Manage depot operations, stabling bays, and facility utilization</p> */}
-            </div>
             <DepotManagement />
+          </div>
+        );
+      case "components":
+        return (
+          <div className="space-y-4 sm:space-y-6">
+            <ComponentManagement />
+          </div>
+        );
+      case "mileage":
+        return (
+          <div className="space-y-4 sm:space-y-6">
+            <MileageManagement />
+          </div>
+        );
+      case "profile":
+        return (
+          <div className="space-y-4 sm:space-y-6">
+            <ProfileManagement />
           </div>
         );
       case "maintenance":

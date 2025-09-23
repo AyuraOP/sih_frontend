@@ -9,6 +9,9 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import FleetManagement from "./pages/FleetManagement";
 import DepotManagement from "./pages/DepotManagement";
+import ComponentManagement from "./pages/ComponentManagement";
+import MileageManagement from "./pages/MileageManagement";
+import ProfileManagement from "./pages/ProfileManagement";
 import NotFound from "./pages/NotFound";
 import './i18n';
 
@@ -35,7 +38,7 @@ const App = () => {
                 <Dashboard />
               </ProtectedRoute>
             } />
-            {/* <Route path="/fleet" element={
+            <Route path="/fleet" element={
               <ProtectedRoute>
                 <FleetManagement />
               </ProtectedRoute>
@@ -44,7 +47,22 @@ const App = () => {
               <ProtectedRoute>
                 <DepotManagement />
               </ProtectedRoute>
-            } /> */}
+            } />
+            <Route path="/components" element={
+              <ProtectedRoute>
+                <ComponentManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="/mileage" element={
+              <ProtectedRoute>
+                <MileageManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <ProfileManagement />
+              </ProtectedRoute>
+            } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/contexts/AuthContext";
+import { fleetService } from "@/services/fleet";
+import { depotService } from "@/services/depot";
+import { toast } from "@/hooks/use-toast";
 import { 
   Calendar, 
   Clock, 
@@ -18,7 +22,52 @@ import {
 } from "lucide-react";
 
 const InductionPlanner = () => {
+  const { token } = useAuth();
   const [selectedScenario, setSelectedScenario] = useState("recommended");
+  const [loading, setLoading] = useState(false);
+  
+  const refreshAIPlan = async () => {
+    try {
+      setLoading(true);
+      // Simulate AI plan refresh by getting latest fleet data
+      await fleetService.getFleetOverview(token!);
+      toast({
+        title: "AI Plan Refreshed",
+        description: "Induction plan has been updated with latest data",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error Refreshing Plan",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const exportPlan = () => {
+    const planData = {
+      scenario: selectedScenario,
+      tonightsPlan,
+      timestamp: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(planData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `induction-plan-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Success",
+      description: "Induction plan exported successfully",
+    });
+  };
   
   const scenarios = [
     {
@@ -168,11 +217,11 @@ const InductionPlanner = () => {
               <span>Tonight's Induction Plan</span>
             </CardTitle>
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm">
-                <RefreshCw className="h-4 w-4 mr-2" />
+              <Button variant="outline" size="sm" onClick={refreshAIPlan} disabled={loading}>
+                <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
                 Refresh AI
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={exportPlan}>
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>

@@ -373,6 +373,15 @@ class UserService {
     return this.handleResponse<{ results: UserActivity[], count: number }>(response);
   }
 
+  async getUserActivity(token: string, id: string): Promise<UserActivity> {
+    const response = await fetch(`${BASE_URL}/activities/${id}/`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<UserActivity>(response);
+  }
+
   // Session Endpoints
   async getUserSessions(token: string, params?: Record<string, any>): Promise<{ results: UserSession[], count: number }> {
     const queryParams = new URLSearchParams();
@@ -390,6 +399,15 @@ class UserService {
     });
 
     return this.handleResponse<{ results: UserSession[], count: number }>(response);
+  }
+
+  async getUserSession(token: string, id: string): Promise<UserSession> {
+    const response = await fetch(`${BASE_URL}/sessions/${id}/`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<UserSession>(response);
   }
 }
 

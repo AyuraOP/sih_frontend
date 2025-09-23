@@ -7,6 +7,10 @@ import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/contexts/AuthContext";
 import { fleetService, Trainset } from "@/services/fleet";
 import { toast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Train, 
   MapPin, 
@@ -15,7 +19,11 @@ import {
   CheckCircle, 
   AlertTriangle,
   Info,
-  RefreshCw
+  RefreshCw,
+  Edit,
+  Settings,
+  Activity,
+  Calendar
 } from "lucide-react";
 
 const getStatusColor = (status: string) => {
@@ -60,6 +68,10 @@ const FleetGrid = ({ detailed = false }: FleetGridProps) => {
   const [trainsets, setTrainsets] = useState<Trainset[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTrain, setSelectedTrain] = useState<Trainset | null>(null);
+  const [showStatusDialog, setShowStatusDialog] = useState(false);
+  const [showMileageDialog, setShowMileageDialog] = useState(false);
+  const [statusUpdate, setStatusUpdate] = useState({ status: '', reason: '' });
+  const [mileageUpdate, setMileageUpdate] = useState({ distance: '' });
 
   useEffect(() => {
     if (token) {
@@ -80,6 +92,48 @@ const FleetGrid = ({ detailed = false }: FleetGridProps) => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!selectedTrain || !statusUpdate.status) return;
+    
+    try {
+      await fleetService.updateServiceStatus(token!, selectedTrain.id, statusUpdate.status, statusUpdate.reason);
+      toast({
+        title: "Success",
+        description: "Service status updated successfully",
+      });
+      setShowStatusDialog(false);
+      setStatusUpdate({ status: '', reason: '' });
+      loadTrainsets();
+    } catch (error: any) {
+      toast({
+        title: "Error Updating Status",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleMileageUpdate = async () => {
+    if (!selectedTrain || !mileageUpdate.distance) return;
+    
+    try {
+      await fleetService.updateTrainsetMileage(token!, selectedTrain.id, mileageUpdate.distance);
+      toast({
+        title: "Success",
+        description: "Mileage updated successfully",
+      });
+      setShowMileageDialog(false);
+      setMileageUpdate({ distance: '' });
+      loadTrainsets();
+    } catch (error: any) {
+      toast({
+        title: "Error Updating Mileage",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -136,9 +190,109 @@ const FleetGrid = ({ detailed = false }: FleetGridProps) => {
                   </div>
                 </div>
               </div>
+              
+              <div className="flex items-center justify-between pt-3 border-t border-border">
+                <div className="flex items-center space-x-2">
+                  <Dialog open={showStatusDialog} onOpenChange={setShowStatusDialog}>
+                    <DialogTrigger asChild>
+                      <Button size="sm" variant="outline" onClick={() => setSelectedTrain(trainset)}>
+                        <Settings className="h-4 w-4 mr-1" />
+                        Status
+                      </Button>
+                    </DialogTrigger>
+                  </Dialog>
+                  
+                  <Dialog open={showMileageDialog} onOpenChange={setShowMileageDialog}>
+                    <DialogTrigger asChild>
+                      <Button size="sm" variant="outline" onClick={() => setSelectedTrain(trainset)}>
+                        <Activity className="h-4 w-4 mr-1" />
+                        Mileage
+                      </Button>
+                    </DialogTrigger>
+                  </Dialog>
+                </div>
+                
+                <Button size="sm" variant="outline">
+                  <Calendar className="h-4 w-4 mr-1" />
+                  Schedule
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ))}
+        
+        {/* Status Update Dialog */}
+        <Dialog open={showStatusDialog} onOpenChange={setShowStatusDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Update Service Status - {selectedTrain?.trainset_number}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="status">New Status</Label>
+                <Select value={statusUpdate.status} onValueChange={(value) => setStatusUpdate({...statusUpdate, status: value})}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="IN_SERVICE">In Service</SelectItem>
+                    <SelectItem value="STANDBY">Standby</SelectItem>
+                    <SelectItem value="MAINTENANCE">Maintenance</SelectItem>
+                    <SelectItem value="OUT_OF_SERVICE">Out of Service</SelectItem>
+                    <SelectItem value="TESTING">Testing</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="reason">Reason</Label>
+                <Textarea
+                  id="reason"
+                  value={statusUpdate.reason}
+                  onChange={(e) => setStatusUpdate({...statusUpdate, reason: e.target.value})}
+                  placeholder="Enter reason for status change"
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setShowStatusDialog(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleStatusUpdate}>
+                  Update Status
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+        
+        {/* Mileage Update Dialog */}
+        <Dialog open={showMileageDialog} onOpenChange={setShowMileageDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Update Mileage - {selectedTrain?.trainset_number}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="distance">Distance Covered (km)</Label>
+                <Input
+                  id="distance"
+                  type="number"
+                  step="0.1"
+                  value={mileageUpdate.distance}
+                  onChange={(e) => setMileageUpdate({...mileageUpdate, distance: e.target.value})}
+                  placeholder="Enter distance in kilometers"
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setShowMileageDialog(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleMileageUpdate}>
+                  Update Mileage
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }

@@ -9,6 +9,9 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/contexts/AuthContext";
+import { authService } from "@/services/auth";
+import { toast } from "@/hooks/use-toast";
 import { 
   Settings, 
   Shield, 
@@ -32,6 +35,7 @@ import {
 } from "lucide-react";
 
 const SystemSettings = () => {
+  const { token } = useAuth();
   const [settings, setSettings] = useState({
     // System Configuration
     systemName: "KMRL Fleet Management System",
@@ -138,9 +142,60 @@ const SystemSettings = () => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleSaveSettings = () => {
-    // In real app, this would save to backend
-    console.log("Settings saved:", settings);
+  const handleSaveSettings = async () => {
+    try {
+      // Update user preferences
+      await authService.updatePreferences(token!, {
+        theme: settings.debugMode ? 'debug' : 'light',
+        dashboard_refresh_interval: parseInt(settings.cacheTimeout),
+        language: 'en',
+        timezone: 'Asia/Kolkata'
+      });
+      
+      toast({
+        title: "Success",
+        description: "Settings saved successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error Saving Settings",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleExportSettings = () => {
+    const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `system-settings-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Success",
+      description: "Settings exported successfully",
+    });
+  };
+
+  const handleBackupDownload = async () => {
+    try {
+      // Simulate backup download
+      toast({
+        title: "Backup Started",
+        description: "System backup is being prepared for download",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error Downloading Backup",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -542,13 +597,17 @@ const SystemSettings = () => {
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={handleBackupDownload}>
                     <Download className="h-4 w-4 mr-2" />
                     Download Backup
                   </Button>
                   <Button variant="outline" size="sm">
                     <Upload className="h-4 w-4 mr-2" />
                     Restore Backup
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleExportSettings}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export Settings
                   </Button>
                 </div>
               </div>

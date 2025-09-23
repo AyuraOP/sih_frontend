@@ -1,6 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useAuth } from "@/contexts/AuthContext";
+import { fleetService } from "@/services/fleet";
+import { authService } from "@/services/auth";
+import { useState, useEffect } from "react";
 import { 
   Train, 
   TrendingUp, 
@@ -13,54 +17,81 @@ import {
 } from "lucide-react";
 
 const KPICards = () => {
+  const { token } = useAuth();
+  const [fleetOverview, setFleetOverview] = useState<any>(null);
+  const [dashboardStats, setDashboardStats] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (token) {
+      loadKPIData();
+    }
+  }, [token]);
+
+  const loadKPIData = async () => {
+    try {
+      const [fleetData, statsData] = await Promise.all([
+        fleetService.getFleetOverview(token!),
+        authService.getDashboardStats(token!)
+      ]);
+      
+      setFleetOverview(fleetData);
+      setDashboardStats(statsData);
+    } catch (error) {
+      console.error('Error loading KPI data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const kpiData = [
     {
       title: "Fleet Availability",
-      value: "92.4%",
+      value: fleetOverview ? `${fleetOverview.average_availability.toFixed(1)}%` : "92.4%",
       change: "+2.1% from last week",
       trend: "up",
       icon: CheckCircle,
       description: "currently operational",
-      progress: 92.4,
+      progress: fleetOverview ? fleetOverview.average_availability : 92.4,
       color: "text-success",
       bgColor: "bg-success/10"
     },
     {
       title: "On-Time Performance", 
-      value: "96.8%",
+      value: fleetOverview ? `${fleetOverview.average_punctuality.toFixed(1)}%` : "96.8%",
       change: "+1.2% from last month",
       trend: "up",
       icon: Clock,
       description: "punctuality score",
-      progress: 96.8,
+      progress: fleetOverview ? fleetOverview.average_punctuality : 96.8,
       color: "text-info",
       bgColor: "bg-info/10"
     },
     {
       title: "Active Trainsets",
-      value: "23/25",
+      value: fleetOverview ? `${fleetOverview.in_service + fleetOverview.standby}/${fleetOverview.total_trainsets}` : "23/25",
       change: "currently operational", 
       trend: "neutral",
       icon: Train,
       description: "fleet status",
-      progress: 92,
+      progress: fleetOverview ? ((fleetOverview.in_service + fleetOverview.standby) / fleetOverview.total_trainsets) * 100 : 92,
       color: "text-primary",
       bgColor: "bg-primary/10"
     },
     {
       title: "Maintenance Due",
-      value: "3",
+      value: fleetOverview ? fleetOverview.maintenance.toString() : "3",
       change: "↓ 25% from last week",
       trend: "down",
       icon: AlertTriangle,
       description: "scheduled maintenance",
-      progress: 20,
+      progress: fleetOverview ? (fleetOverview.maintenance / fleetOverview.total_trainsets) * 100 : 20,
       color: "text-warning",
       bgColor: "bg-warning/10"
     },
     {
       title: "Critical Alerts",
-      value: "2", 
+      value: dashboardStats ? dashboardStats.critical_alerts.toString() : "2", 
       change: "↓ 50% from yesterday",
       trend: "down",
       icon: AlertTriangle,

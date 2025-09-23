@@ -1,6 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { userService } from "@/services/users";
+import { useState, useEffect } from "react";
 import { 
   Train, 
   Wrench, 
@@ -8,10 +12,36 @@ import {
   AlertTriangle,
   Clock,
   Users,
-  Calendar
+  Calendar,
+  RefreshCw,
+  Eye
 } from "lucide-react";
 
 const RecentActivity = () => {
+  const { token } = useAuth();
+  const [activities, setActivities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      loadActivities();
+    }
+  }, [token]);
+
+  const loadActivities = async () => {
+    try {
+      setLoading(true);
+      const response = await userService.getUserActivities(token!, { page_size: 10, ordering: '-created_at' });
+      setActivities(response.results || []);
+    } catch (error) {
+      console.error('Error loading activities:', error);
+      // Keep mock data if API fails
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Mock activities as fallback
   const activities = [
     {
       id: 1,
@@ -52,6 +82,9 @@ const RecentActivity = () => {
         <CardTitle className="flex items-center space-x-2 text-sm sm:text-base">
           <Clock className="h-4 w-4 sm:h-5 sm:w-5" />
           <span>Recent Activity</span>
+          <Button variant="ghost" size="sm" onClick={loadActivities} disabled={loading}>
+            <RefreshCw className={`h-3 w-3 ${loading ? 'animate-spin' : ''}`} />
+          </Button>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
@@ -89,9 +122,10 @@ const RecentActivity = () => {
         </ScrollArea>
         
         <div className="p-3 sm:p-4 border-t border-border">
-          <button className="w-full text-xs sm:text-sm text-primary hover:text-primary-hover transition-colors">
+          <Button variant="ghost" className="w-full text-xs sm:text-sm" onClick={loadActivities}>
+            <Eye className="h-4 w-4 mr-2" />
             View All Activities
-          </button>
+          </Button>
         </div>
       </CardContent>
     </Card>

@@ -2,6 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
+import { fleetService } from "@/services/fleet";
+import { toast } from "@/hooks/use-toast";
+import { useState, useEffect } from "react";
 import { 
   BarChart3, 
   TrendingUp, 
@@ -11,7 +15,8 @@ import {
   Calendar,
   Target,
   Zap,
-  AlertTriangle
+  AlertTriangle,
+  RefreshCw
 } from "lucide-react";
 import { 
   LineChart, 
@@ -31,6 +36,75 @@ import {
 } from 'recharts';
 
 const AnalyticsDashboard = () => {
+  const { token } = useAuth();
+  const [performanceSummary, setPerformanceSummary] = useState<any>(null);
+  const [performanceTrends, setPerformanceTrends] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      loadAnalyticsData();
+    }
+  }, [token]);
+
+  const loadAnalyticsData = async () => {
+    try {
+      setLoading(true);
+      const [summaryData, trendsData] = await Promise.all([
+        fleetService.getFleetPerformanceSummary(token!, 30),
+        fleetService.getPerformanceTrends(token!, 90)
+      ]);
+      
+      setPerformanceSummary(summaryData);
+      setPerformanceTrends(trendsData);
+    } catch (error: any) {
+      toast({
+        title: "Error Loading Analytics Data",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const exportData = async (type: string) => {
+    try {
+      let data;
+      switch (type) {
+        case 'performance':
+          data = await fleetService.getPerformanceMetrics(token!, { format: 'json', page_size: 1000 });
+          break;
+        case 'trends':
+          data = performanceTrends;
+          break;
+        default:
+          data = performanceSummary;
+      }
+      
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${type}-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Success",
+        description: "Data exported successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error Exporting Data",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   // Sample data for charts
   const performanceData = [
     { month: 'Jan', availability: 85, punctuality: 92, efficiency: 88 },
@@ -206,10 +280,16 @@ const AnalyticsDashboard = () => {
         <TabsContent value="maintenance" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5" />
-                <span>Maintenance Analytics</span>
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center space-x-2">
+                  <Calendar className="h-5 w-5" />
+                  <span>Maintenance Analytics</span>
+                </CardTitle>
+                <Button variant="outline" size="sm" onClick={() => exportData('maintenance')}>
+                  <Download className="h-4 w-4 mr-2" />
+                  Export
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
@@ -273,9 +353,15 @@ const AnalyticsDashboard = () => {
                     <span className="text-sm">Average Daily Miles</span>
                     <span className="font-medium">1,247 km</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <Button variant="outline" size="sm" onClick={loadAnalyticsData} disabled={loading}>
+                      <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                      Refresh
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => exportData('performance')}>
                     <span className="text-sm">Revenue Hours</span>
                     <span className="font-medium">18.5 hrs/day</span>
+                  </div>
                   </div>
                 </div>
               </CardContent>
@@ -286,10 +372,16 @@ const AnalyticsDashboard = () => {
         <TabsContent value="insights" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Zap className="h-5 w-5" />
-                <span>AI-Powered Insights</span>
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center space-x-2">
+                  <Zap className="h-5 w-5" />
+                  <span>AI-Powered Insights</span>
+                </CardTitle>
+                <Button variant="outline" size="sm" onClick={() => exportData('insights')}>
+                  <Download className="h-4 w-4 mr-2" />
+                  Export Insights
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -313,7 +405,7 @@ const AnalyticsDashboard = () => {
                         <span className="text-sm font-medium text-primary">
                           Recommended: {insight.action}
                         </span>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => toast({ title: "Action Noted", description: "Recommendation has been logged for review" })}>
                           Take Action
                         </Button>
                       </div>

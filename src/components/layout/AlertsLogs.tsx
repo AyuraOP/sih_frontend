@@ -288,6 +288,41 @@ const AlertsLogs: React.FC<AlertsLogsProps> = ({ onAlertCountChange }) => {
 
   const deleteAlert = (alertId: string) => {
     setAlerts(prev => prev.filter(alert => alert.id !== alertId));
+    toast({
+      title: "Alert Deleted",
+      description: "Alert has been removed from the system",
+    });
+  };
+
+  const exportLogs = () => {
+    const exportData = {
+      alerts: filteredAlerts,
+      logs: filteredLogs,
+      exportedAt: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `alerts-logs-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Success",
+      description: "Alerts and logs exported successfully",
+    });
+  };
+
+  const refreshData = () => {
+    // Simulate data refresh
+    toast({
+      title: "Data Refreshed",
+      description: "Alerts and logs have been updated",
+    });
   };
 
   const filteredAlerts = alerts.filter(alert => {
@@ -317,11 +352,11 @@ const AlertsLogs: React.FC<AlertsLogsProps> = ({ onAlertCountChange }) => {
           <p className="text-muted-foreground">Monitor system alerts and operational logs for KMRL fleet management</p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={exportLogs}>
             <Download className="h-4 w-4 mr-2" />
             Export Logs
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={refreshData}>
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>

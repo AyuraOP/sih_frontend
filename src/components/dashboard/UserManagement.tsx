@@ -133,6 +133,73 @@ const UserManagement = () => {
     }
   };
 
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      await userService.deleteUser(token!, userId);
+      toast({
+        title: "Success",
+        description: "User deactivated successfully",
+      });
+      loadUserData();
+    } catch (error: any) {
+      toast({
+        title: "Error Deactivating User",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleResetPassword = async (userId: string) => {
+    try {
+      await userService.resetUserPassword(token!, userId);
+      toast({
+        title: "Success",
+        description: "Password reset successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error Resetting Password",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleLockAccount = async (userId: string) => {
+    try {
+      await userService.lockAccount(token!, userId, { duration_minutes: 60, reason: "Manual lock" });
+      toast({
+        title: "Success",
+        description: "Account locked successfully",
+      });
+      loadUserData();
+    } catch (error: any) {
+      toast({
+        title: "Error Locking Account",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUnlockAccount = async (userId: string) => {
+    try {
+      await userService.unlockAccount(token!, userId);
+      toast({
+        title: "Success",
+        description: "Account unlocked successfully",
+      });
+      loadUserData();
+    } catch (error: any) {
+      toast({
+        title: "Error Unlocking Account",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const getStatusColor = (status: string | boolean) => {
     switch (status) {
       case true:
@@ -517,7 +584,23 @@ const UserManagement = () => {
                           <Settings className="h-4 w-4 mr-2" />
                           Manage Permissions
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
+                        <DropdownMenuItem onClick={() => handleResetPassword(user.id)}>
+                          <Settings className="h-4 w-4 mr-2" />
+                          Reset Password
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleLockAccount(user.id)}>
+                          <Settings className="h-4 w-4 mr-2" />
+                          Lock Account
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteUser(user.id)}>
+                          <Settings className="h-4 w-4 mr-2" />
+                          Reset Password
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleLockAccount(user.id)}>
+                          <Settings className="h-4 w-4 mr-2" />
+                          Lock Account
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteUser(user.id)}>
                           <Trash2 className="h-4 w-4 mr-2" />
                           Deactivate User
                         </DropdownMenuItem>

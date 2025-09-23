@@ -1,5 +1,5 @@
 // Authentication API Service for KMRL Fleet Management System - JWT Implementation
-const BASE_URL = 'http://localhost:8000/api/v1/accounts';
+const BASE_URL = 'http://127.0.0.1:8000/api/v1/accounts';
 
 export interface LoginRequest {
   email: string;
@@ -138,104 +138,26 @@ class AuthService {
     return response.json();
   }
 
-  // // Mock login for development
-  // private async mockLogin(credentials: LoginRequest): Promise<LoginResponse> {
-  //   await new Promise(resolve => setTimeout(resolve, 1000));
-    
-  //   const mockUser: UserProfile = {
-  //     id: '1',
-  //     email: credentials.email,
-  //     employee_id: 'EMP001',
-  //     first_name: 'System',
-  //     last_name: 'Administrator',
-  //     designation: 'System Administrator',
-  //     grade: 'SA',
-  //     shift_type: 'DAY',
-  //     is_active: true,
-  //     must_change_password: false
-  //   };
-
-  //   if (credentials.email === 'admin@gmail.com' && credentials.password === '1234') {
-  //     return {
-  //       access: 'mock-jwt-access-token-' + Date.now(),
-  //       refresh: 'mock-jwt-refresh-token-' + Date.now(),
-  //       access_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour
-  //       refresh_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours
-  //       user: mockUser,
-  //       max_sessions: 3,
-  //       active_sessions_count: 1,
-  //       session_id: 'mock-session-' + Date.now(),
-  //       message: 'Mock login successful'
-  //     };
-  //   } else if (credentials.password === '1234') {
-  //     return {
-  //       access: 'mock-jwt-access-token-' + Date.now(),
-  //       refresh: 'mock-jwt-refresh-token-' + Date.now(),
-  //       access_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-  //       refresh_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-  //       user: {
-  //         ...mockUser,
-  //         id: '2',
-  //         email: credentials.email,
-  //         employee_id: 'EMP002',
-  //         first_name: 'Fleet',
-  //         last_name: 'Operator',
-  //         designation: 'Operations Manager',
-  //         grade: 'OM'
-  //       },
-  //       max_sessions: 1,
-  //       active_sessions_count: 1,
-  //       session_id: 'mock-session-' + Date.now(),
-  //       message: 'Mock login successful'
-  //     };
-  //   } else {
-  //     throw new Error('Invalid credentials. Use password "1234" for any email address');
-  //   }
-  // }
-
   // 1. User Login with JWT
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    try {
-      const response = await fetch(`${BASE_URL}/auth/login/`, {
-        method: 'POST',
-        headers: this.getAuthHeaders(),
-        body: JSON.stringify(credentials),
-      });
+    const response = await fetch(`${BASE_URL}/auth/login/`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(credentials),
+    });
 
-      return this.handleResponse<LoginResponse>(response);
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.warn('Backend unavailable, using mock login:', error);
-        // return this.mockLogin(credentials);
-      }
-      throw error;
-    }
+    return this.handleResponse<LoginResponse>(response);
   }
 
-  // 2. Get Auth Token (Alternative login method) - Updated for JWT
+  // 2. Get Auth Token (Alternative login method)
   async getToken(credentials: TokenRequest): Promise<LoginResponse> {
-    if (import.meta.env.DEV && !import.meta.env.VITE_API_URL) {
-      // return this.mockLogin({ email: credentials.username, password: credentials.password });
-    }
+    const response = await fetch(`${BASE_URL}/auth/token/`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(credentials),
+    });
 
-    try {
-      // Use the same login endpoint but with username/password format
-      const response = await fetch(`${BASE_URL}/auth/login/`, {
-        method: 'POST',
-        headers: this.getAuthHeaders(),
-        body: JSON.stringify({
-          email: credentials.username,
-          password: credentials.password
-        }),
-      });
-
-      return this.handleResponse<LoginResponse>(response);
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        // return this.mockLogin({ email: credentials.username, password: credentials.password });
-      }
-      throw error;
-    }
+    return this.handleResponse<LoginResponse>(response);
   }
 
   // 3. Refresh JWT Token
@@ -377,6 +299,44 @@ class AuthService {
     });
 
     return this.handleResponse<DashboardStats>(response);
+  }
+
+  // User Activities
+  async getUserActivities(token: string, params?: Record<string, any>): Promise<any> {
+    const queryParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          queryParams.append(key, value.toString());
+        }
+      });
+    }
+
+    const response = await fetch(`${BASE_URL}/activities/?${queryParams.toString()}`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<any>(response);
+  }
+
+  // User Sessions
+  async getAllUserSessions(token: string, params?: Record<string, any>): Promise<any> {
+    const queryParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          queryParams.append(key, value.toString());
+        }
+      });
+    }
+
+    const response = await fetch(`${BASE_URL}/sessions/?${queryParams.toString()}`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<any>(response);
   }
 
   // JWT Token Management Utilities

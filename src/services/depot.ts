@@ -246,6 +246,18 @@ class DepotService {
     return this.handleResponse<Depot>(response);
   }
 
+  async deleteDepot(token: string, id: string): Promise<void> {
+    const response = await fetch(`${BASE_URL}/depots/${id}/`, {
+      method: 'DELETE',
+      headers: this.getAuthHeaders(token),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || errorData.detail || `HTTP error! status: ${response.status}`);
+    }
+  }
+
   async getDepotSummary(token: string, id: string): Promise<any> {
     const response = await fetch(`${BASE_URL}/depots/${id}/summary/`, {
       method: 'GET',
@@ -290,6 +302,35 @@ class DepotService {
     });
 
     return this.handleResponse<{ results: StablingBay[], count: number }>(response);
+  }
+
+  async getStablingBay(token: string, id: string): Promise<StablingBay> {
+    const response = await fetch(`${BASE_URL}/stabling-bays/${id}/`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<StablingBay>(response);
+  }
+
+  async createStablingBay(token: string, bayData: Partial<StablingBay>): Promise<StablingBay> {
+    const response = await fetch(`${BASE_URL}/stabling-bays/`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(token),
+      body: JSON.stringify(bayData),
+    });
+
+    return this.handleResponse<StablingBay>(response);
+  }
+
+  async updateStablingBay(token: string, id: string, bayData: Partial<StablingBay>): Promise<StablingBay> {
+    const response = await fetch(`${BASE_URL}/stabling-bays/${id}/`, {
+      method: 'PATCH',
+      headers: this.getAuthHeaders(token),
+      body: JSON.stringify(bayData),
+    });
+
+    return this.handleResponse<StablingBay>(response);
   }
 
   async getAvailableBays(token: string): Promise<StablingBay[]> {
@@ -351,6 +392,25 @@ class DepotService {
     });
 
     return this.handleResponse<{ results: CleaningSlot[], count: number }>(response);
+  }
+
+  async getCleaningSlot(token: string, id: string): Promise<CleaningSlot> {
+    const response = await fetch(`${BASE_URL}/cleaning-slots/${id}/`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<CleaningSlot>(response);
+  }
+
+  async createCleaningSlot(token: string, slotData: Partial<CleaningSlot>): Promise<CleaningSlot> {
+    const response = await fetch(`${BASE_URL}/cleaning-slots/`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(token),
+      body: JSON.stringify(slotData),
+    });
+
+    return this.handleResponse<CleaningSlot>(response);
   }
 
   async getAvailableCleaningSlots(token: string): Promise<CleaningSlot[]> {
@@ -427,9 +487,28 @@ class DepotService {
     return this.handleResponse<{ results: ShuntingPlan[], count: number }>(response);
   }
 
+  async getShuntingPlan(token: string, id: string): Promise<ShuntingPlan> {
+    const response = await fetch(`${BASE_URL}/shunting-plans/${id}/`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<ShuntingPlan>(response);
+  }
+
   async createShuntingPlan(token: string, planData: Partial<ShuntingPlan>): Promise<ShuntingPlan> {
     const response = await fetch(`${BASE_URL}/shunting-plans/`, {
       method: 'POST',
+      headers: this.getAuthHeaders(token),
+      body: JSON.stringify(planData),
+    });
+
+    return this.handleResponse<ShuntingPlan>(response);
+  }
+
+  async updateShuntingPlan(token: string, id: string, planData: Partial<ShuntingPlan>): Promise<ShuntingPlan> {
+    const response = await fetch(`${BASE_URL}/shunting-plans/${id}/`, {
+      method: 'PATCH',
       headers: this.getAuthHeaders(token),
       body: JSON.stringify(planData),
     });
@@ -481,6 +560,25 @@ class DepotService {
     });
 
     return this.handleResponse<{ results: DepotEvent[], count: number }>(response);
+  }
+
+  async getDepotEvent(token: string, id: string): Promise<DepotEvent> {
+    const response = await fetch(`${BASE_URL}/events/${id}/`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(token),
+    });
+
+    return this.handleResponse<DepotEvent>(response);
+  }
+
+  async createDepotEvent(token: string, eventData: Partial<DepotEvent>): Promise<DepotEvent> {
+    const response = await fetch(`${BASE_URL}/events/`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(token),
+      body: JSON.stringify(eventData),
+    });
+
+    return this.handleResponse<DepotEvent>(response);
   }
 
   async getActiveIncidents(token: string): Promise<DepotEvent[]> {

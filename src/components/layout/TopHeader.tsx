@@ -26,6 +26,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@/contexts/AuthContext";
 import LanguageSelector from "@/components/LanguageSelector";
+import SessionManager from "@/components/session/SessionManager";
 
 interface TopHeaderProps {
   currentTime: Date;
@@ -176,6 +177,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
       <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
         {/* Language Selector */}
         <LanguageSelector />
+
+        {/* Session Manager */}
+        <SessionManager />
 
         {/* Operations Center Info - Mobile */}
         <div className="hidden sm:flex md:hidden items-center space-x-2">
@@ -372,7 +376,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
                     <p className="text-xs text-muted-foreground">Role</p>
                     <div className="flex items-center space-x-2">
                       <Badge variant="secondary" className="text-xs">
-                        {user?.role || 'User'}
+                        {user?.role ? (typeof user.role === 'object' ? user.role.name : user.role) : 'User'}
                       </Badge>
                     </div>
                   </div>

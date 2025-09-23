@@ -4,6 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/contexts/AuthContext";
+import { fleetService } from "@/services/fleet";
+import { toast } from "@/hooks/use-toast";
 import { 
   Wrench, 
   Calendar, 
@@ -15,11 +22,22 @@ import {
   Plus,
   Download,
   RefreshCw,
-  Sparkles
+  Sparkles,
+  Edit,
+  Eye
 } from "lucide-react";
 
 const MaintenanceHub = () => {
+  const { token } = useAuth();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [showHealthUpdateDialog, setShowHealthUpdateDialog] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState<any>(null);
+  const [healthUpdate, setHealthUpdate] = useState({
+    health_status: '',
+    health_score: 0,
+    next_inspection_due: '',
+    inspection_notes: ''
+  });
 
   const jobCards = [
     {
@@ -128,6 +146,31 @@ const MaintenanceHub = () => {
       recommendedAction: "Monitor condition"
     }
   ];
+
+  const handleUpdateComponentHealth = async () => {
+    if (!selectedComponent || !healthUpdate.health_status) return;
+    
+    try {
+      await fleetService.updateComponentHealth(token!, selectedComponent.id, healthUpdate);
+      toast({
+        title: "Success",
+        description: "Component health updated successfully",
+      });
+      setShowHealthUpdateDialog(false);
+      setHealthUpdate({
+        health_status: '',
+        health_score: 0,
+        next_inspection_due: '',
+        inspection_notes: ''
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error Updating Component Health",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -361,8 +404,22 @@ const MaintenanceHub = () => {
                       </div>
                       
                       <div className="flex space-x-2 mt-4">
-                        <Button size="sm" variant="outline">Schedule Maintenance</Button>
-                        <Button size="sm" variant="outline">View Analytics</Button>
+                        <Dialog open={showHealthUpdateDialog} onOpenChange={setShowHealthUpdateDialog}>
+                          <DialogTrigger asChild>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => setSelectedComponent(prediction)}
+                            >
+                              <Edit className="h-4 w-4 mr-1" />
+                              Update Health
+                            </Button>
+                          </DialogTrigger>
+                        </Dialog>
+                        <Button size="sm" variant="outline">
+                          <Eye className="h-4 w-4 mr-1" />
+                          View Analytics
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -372,6 +429,69 @@ const MaintenanceHub = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      {/* Component Health Update Dialog */}
+      <Dialog open={showHealthUpdateDialog} onOpenChange={setShowHealthUpdateDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Update Component Health</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="health_status">Health Status</Label>
+              <Select value={healthUpdate.health_status} onValueChange={(value) => setHealthUpdate({...healthUpdate, health_status: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select health status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="EXCELLENT">Excellent</SelectItem>
+                  <SelectItem value="GOOD">Good</SelectItem>
+                  <SelectItem value="FAIR">Fair</SelectItem>
+                  <SelectItem value="POOR">Poor</SelectItem>
+                  <SelectItem value="CRITICAL">Critical</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="health_score">Health Score (0-100)</Label>
+              <Input
+                id="health_score"
+                type="number"
+                min="0"
+                max="100"
+                value={healthUpdate.health_score}
+                onChange={(e) => setHealthUpdate({...healthUpdate, health_score: parseFloat(e.target.value)})}
+              />
+            </div>
+            <div>
+              <Label htmlFor="next_inspection_due">Next Inspection Due</Label>
+              <Input
+                id="next_inspection_due"
+                type="date"
+                value={healthUpdate.next_inspection_due}
+                onChange={(e) => setHealthUpdate({...healthUpdate, next_inspection_due: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label htmlFor="inspection_notes">Inspection Notes</Label>
+              <Textarea
+                id="inspection_notes"
+                value={healthUpdate.inspection_notes}
+                onChange={(e) => setHealthUpdate({...healthUpdate, inspection_notes: e.target.value})}
+                placeholder="Enter inspection notes"
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button variant="outline" onClick={() => setShowHealthUpdateDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleUpdateComponentHealth}>
+                Update Health
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
