@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,8 +8,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "@/hooks/use-toast";
 import { Train, Shield, Users, BarChart3, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import LanguageSelector from "@/components/LanguageSelector";
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login, loginWithToken, isLoading, error, clearError } = useAuth();
   const [credentials, setCredentials] = useState({
@@ -24,8 +27,8 @@ const Login = () => {
 
     if (!credentials.email || !credentials.password) {
       toast({
-        title: "Validation Error",
-        description: "Please enter both email and password",
+        title: t('login.validationError'),
+        description: t('login.enterBothCredentials'),
         variant: "destructive",
       });
       return;
@@ -39,14 +42,14 @@ const Login = () => {
       }
       
       toast({
-        title: "Login Successful",
-        description: "Welcome to Kochi Metro Rail Fleet Management System",
+        title: t('login.loginSuccessful'),
+        description: t('login.welcomeMessage'),
       });
       navigate("/dashboard");
     } catch (error: any) {
       console.error("Login error:", error);
       toast({
-        title: "Login Failed",
+        title: t('login.loginFailed'),
         description: error.message || "Failed to connect to server. Please check your connection and try again.",
         variant: "destructive",
       });
@@ -55,6 +58,11 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-primary-hover to-primary-light flex items-center justify-center p-2 sm:p-4">
+      {/* Language Selector - Top Right */}
+      <div className="absolute top-4 right-4 z-10">
+        <LanguageSelector />
+      </div>
+      
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-4 lg:gap-8 items-center">
         
         {/* Left Side - Branding */}
@@ -65,13 +73,13 @@ const Login = () => {
                 <Train className="h-8 w-8" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold">Kochi Metro Rail</h1>
-                <p className="text-white/80">Fleet Management System</p>
+                <h1 className="text-3xl font-bold">{t('login.title')}</h1>
+                <p className="text-white/80">{t('login.subtitle')}</p>
               </div>
             </div>
             
             <p className="text-lg text-white/90 leading-relaxed">
-              Advanced AI-powered fleet management and induction planning system for seamless metro operations across Kochi's transport network.
+              {t('login.description')}
             </p>
           </div>
 
@@ -81,8 +89,8 @@ const Login = () => {
                 <BarChart3 className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-semibold mb-1">Real-time Monitoring</h3>
-                <p className="text-white/80 text-sm">Track 25 trainsets with live status updates and performance metrics</p>
+                <h3 className="font-semibold mb-1">{t('login.features.realTimeMonitoring.title')}</h3>
+                <p className="text-white/80 text-sm">{t('login.features.realTimeMonitoring.description')}</p>
               </div>
             </div>
             
@@ -91,8 +99,8 @@ const Login = () => {
                 <Shield className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-semibold mb-1">AI-Powered Planning</h3>
-                <p className="text-white/80 text-sm">Intelligent scheduling with predictive maintenance and optimization</p>
+                <h3 className="font-semibold mb-1">{t('login.features.aiPoweredPlanning.title')}</h3>
+                <p className="text-white/80 text-sm">{t('login.features.aiPoweredPlanning.description')}</p>
               </div>
             </div>
             
@@ -101,8 +109,8 @@ const Login = () => {
                 <Users className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-semibold mb-1">Operations Center</h3>
-                <p className="text-white/80 text-sm">24/7 control room interface designed for government transit operations</p>
+                <h3 className="font-semibold mb-1">{t('login.features.operationsCenter.title')}</h3>
+                <p className="text-white/80 text-sm">{t('login.features.operationsCenter.description')}</p>
               </div>
             </div>
           </div>
@@ -115,12 +123,12 @@ const Login = () => {
               <Train className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Kochi Metro Rail</h1>
-              <p className="text-white/80 text-sm">Fleet Management System</p>
+              <h1 className="text-2xl font-bold">{t('login.title')}</h1>
+              <p className="text-white/80 text-sm">{t('login.subtitle')}</p>
             </div>
           </div>
           <p className="text-sm text-white/90 leading-relaxed max-w-md mx-auto">
-            Advanced AI-powered fleet management and induction planning system for seamless metro operations.
+            {t('login.description')}
           </p>
         </div>
 
@@ -128,9 +136,9 @@ const Login = () => {
         <div className="w-full max-w-md mx-auto">
           <Card className="shadow-government-xl border-white/20">
             <CardHeader className="space-y-1 text-center">
-              <CardTitle className="text-xl sm:text-2xl font-bold">System Access</CardTitle>
+              <CardTitle className="text-xl sm:text-2xl font-bold">{t('login.systemAccess')}</CardTitle>
               <CardDescription className="text-sm">
-                Enter your credentials to access the fleet management dashboard
+                {t('login.enterCredentials')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -143,11 +151,11 @@ const Login = () => {
               
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
+                  <Label htmlFor="email" className="text-sm font-medium">{t('login.emailAddress')}</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder={t('login.enterEmail')}
                     value={credentials.email}
                     onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
                     className="form-input h-11 text-base"
@@ -156,12 +164,12 @@ const Login = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                  <Label htmlFor="password" className="text-sm font-medium">{t('common.password')}</Label>
                   <div className="relative">
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
+                      placeholder={t('login.enterPassword')}
                       value={credentials.password}
                       onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                       className="form-input pr-10 h-11 text-base"
@@ -186,13 +194,13 @@ const Login = () => {
                   className="w-full btn-government text-base sm:text-lg py-3 h-12"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Authenticating..." : "Access Dashboard"}
+                  {isLoading ? t('login.authenticating') : t('login.accessDashboard')}
                 </Button>
               </form>
 
               <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <p className="text-xs sm:text-sm text-blue-800 text-center leading-relaxed">
-                  <strong>Demo Mode:</strong><br className="sm:hidden" />
+                  <strong>{t('login.demoMode')}</strong><br className="sm:hidden" />
                   <span className="hidden sm:inline"> Use </span>
                   <span className="sm:hidden">Use </span>
                   admin@gmail.com / 1234<br className="sm:hidden" />
@@ -200,14 +208,11 @@ const Login = () => {
                   <span className="hidden sm:inline"> or </span>
                   any valid email / 1234
                 </p>
-                <p className="text-xs text-blue-700 text-center mt-2">
-                  <strong>JWT Authentication:</strong> Secure session management with automatic token refresh
-                </p>
               </div>
 
               <div className="mt-4 text-center">
                 <p className="text-xs text-muted-foreground">
-                  Government of Kerala • Kochi Metro Rail Limited
+                  {t('login.governmentKerala')}
                 </p>
               </div>
             </CardContent>

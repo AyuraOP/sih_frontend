@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import { useAuthInterceptor } from "@/hooks/use-auth-interceptor";
 import FleetGrid from "@/components/dashboard/FleetGrid";
 import KPICards from "@/components/dashboard/KPICards";
 import InductionPlanner from "@/components/dashboard/InductionPlanner";
@@ -15,14 +15,13 @@ import TonightsInductionPlan from "@/components/dashboard/TonightsInductionPlan"
 import ScheduleAdjustment from "@/components/dashboard/ScheduleAdjustment";
 import Sidebar from "@/components/layout/Sidebar";
 import TopHeader from "@/components/layout/TopHeader";
-import SessionWarning from "@/components/auth/SessionWarning";
 import { useIsMobile } from "@/hooks/use-mobile";
 import DepotManagement from "./DepotManagement";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated, isLoading, sessionInfo } = useAuth();
-  const { authenticatedFetch } = useAuthInterceptor();
+  const { user, logout, isAuthenticated, isLoading } = useAuth();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -41,13 +40,6 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, [navigate, isAuthenticated, isLoading]);
 
-  // Check for session expiry warnings
-  useEffect(() => {
-    if (sessionInfo?.is_expiring_soon) {
-      // Show warning about session expiry
-      console.warn('Session expiring soon');
-    }
-  }, [sessionInfo]);
   const handleLogout = async () => {
     try {
       await logout();
@@ -77,10 +69,10 @@ const Dashboard = () => {
         return (
           <div className="space-y-4 sm:space-y-6">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-foreground">Fleet Management Dashboard</h1>
-                <p className="text-sm sm:text-base text-muted-foreground">Real-time monitoring and AI-powered operations for Kochi Metro Rail</p>
-              </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t('dashboard.title')}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">{t('dashboard.subtitle')}</p>
+            </div>
             </div>
             
             <KPICards />
@@ -88,23 +80,23 @@ const Dashboard = () => {
             <div className="grid lg:grid-cols-4 gap-4 sm:gap-6">
               <div className="lg:col-span-3">
                 <div className="mb-4">
-                  <h2 className="text-base sm:text-lg font-semibold text-foreground mb-2">Fleet Status Overview</h2>
+                  <h2 className="text-base sm:text-lg font-semibold text-foreground mb-2">{t('dashboard.fleetStatusOverview')}</h2>
                   <div className="grid grid-cols-2 sm:flex sm:items-center sm:space-x-4 text-xs sm:text-sm text-muted-foreground mb-4 gap-2">
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></div>
-                      <span>Standby: 2</span>
+                      <span>{t('dashboard.standby')}: 2</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
-                      <span>Ready: 18</span>
+                      <span>{t('dashboard.ready')}: 18</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
-                      <span>Maintenance: 4</span>
+                      <span>{t('dashboard.maintenance')}: 4</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-500"></div>
-                      <span>In Service: 1</span>
+                      <span>{t('dashboard.inService')}: 1</span>
                     </div>
                   </div>
                 </div>
@@ -123,8 +115,8 @@ const Dashboard = () => {
         return (
           <div className="space-y-4 sm:space-y-6">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Fleet Management</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Real-time fleet status and performance monitoring for 25 KMRL trainsets</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">{t('dashboard.fleetManagement')}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">{t('dashboard.fleetDescription')}</p>
             </div>
             <FleetGrid detailed />
           </div>
@@ -133,8 +125,8 @@ const Dashboard = () => {
         return (
           <div className="space-y-4 sm:space-y-6">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">AI Induction Planner</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Intelligent scheduling and conflict resolution</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">{t('dashboard.aiInductionPlanner')}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">{t('dashboard.schedulingDescription')}</p>
             </div>
             <InductionPlanner />
           </div>
@@ -153,8 +145,8 @@ const Dashboard = () => {
         return (
           <div className="space-y-4 sm:space-y-6">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Maintenance Hub</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Job cards, cleaning schedules, and predictive maintenance</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">{t('dashboard.maintenanceHub')}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">{t('dashboard.maintenanceDescription')}</p>
             </div>
             <MaintenanceHub />
           </div>
@@ -163,8 +155,8 @@ const Dashboard = () => {
         return (
           <div className="space-y-4 sm:space-y-6">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Analytics & Reports</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Performance insights and predictive analytics</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">{t('dashboard.analyticsReports')}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">{t('dashboard.analyticsDescription')}</p>
             </div>
             <AnalyticsDashboard />
           </div>
@@ -194,8 +186,6 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen flex bg-background">
-      <SessionWarning />
-      
       {/* Sidebar */}
       <Sidebar 
         activeTab={activeTab}

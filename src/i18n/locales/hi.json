@@ -1,0 +1,174 @@
+{
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं",
+    "confirm": "पुष्टि करें",
+    "close": "बंद करें",
+    "back": "वापस",
+    "next": "अगला",
+    "previous": "पिछला",
+    "search": "खोजें",
+    "filter": "फिल्टर",
+    "refresh": "रिफ्रेश करें",
+    "logout": "लॉगआउट",
+    "login": "लॉगिन",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "submit": "जमा करें",
+    "reset": "रीसेट"
+  },
+  "navigation": {
+    "dashboard": "डैशबोर्ड",
+    "fleetManagement": "बेड़ा प्रबंधन",
+    "scheduling": "शेड्यूलिंग",
+    "DepotManagement": "डिपो प्रबंधन",
+    "maintenance": "रखरखाव",
+    "analytics": "विश्लेषण",
+    "userManagement": "उपयोगकर्ता प्रबंधन",
+    "systemSettings": "सिस्टम सेटिंग्स",
+    "alertsLogs": "अलर्ट और लॉग",
+    "operations": "संचालन",
+    "administration": "प्रशासन"
+  },
+  "login": {
+    "title": "कोच्चि मेट्रो रेल",
+    "subtitle": "बेड़ा प्रबंधन प्रणाली",
+    "description": "कोच्चि के परिवहन नेटवर्क में निर्बाध मेट्रो संचालन के लिए उन्नत AI-संचालित बेड़ा प्रबंधन और प्रेरण योजना प्रणाली।",
+    "systemAccess": "सिस्टम एक्सेस",
+    "enterCredentials": "बेड़ा प्रबंधन डैशबोर्ड तक पहुंचने के लिए अपनी साख दर्ज करें",
+    "emailAddress": "ईमेल पता",
+    "enterEmail": "अपना ईमेल पता दर्ज करें",
+    "enterPassword": "अपना पासवर्ड दर्ज करें",
+    "accessDashboard": "डैशबोर्ड तक पहुंचें",
+    "authenticating": "प्रमाणीकरण...",
+    "loginSuccessful": "लॉगिन सफल",
+    "welcomeMessage": "कोच्चि मेट्रो रेल बेड़ा प्रबंधन प्रणाली में आपका स्वागत है",
+    "loginFailed": "लॉगिन असफल",
+    "validationError": "सत्यापन त्रुटि",
+    "enterBothCredentials": "कृपया ईमेल और पासवर्ड दोनों दर्ज करें",
+    "demoMode": "डेमो मोड:",
+    "useCredentials": "admin@kmrl.com / admin123 या operator@kmrl.com / operator123 का उपयोग करें",
+    "governmentKerala": "केरल सरकार • कोच्चि मेट्रो रेल लिमिटेड",
+    "features": {
+      "realTimeMonitoring": {
+        "title": "रियल-टाइम मॉनिटरिंग",
+        "description": "लाइव स्थिति अपडेट और प्रदर्शन मेट्रिक्स के साथ 25 ट्रेनसेट को ट्रैक करें"
+      },
+      "aiPoweredPlanning": {
+        "title": "AI-संचालित योजना",
+        "description": "भविष्य कहनेवाला रखरखाव और अनुकूलन के साथ बुद्धिमान शेड्यूलिंग"
+      },
+      "operationsCenter": {
+        "title": "संचालन केंद्र",
+        "description": "सरकारी पारगमन संचालन के लिए डिज़ाइन किया गया 24/7 नियंत्रण कक्ष इंटरफेस"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "बेड़ा प्रबंधन डैशबोर्ड",
+    "subtitle": "कोच्चि मेट्रो रेल के लिए रियल-टाइम मॉनिटरिंग और AI-संचालित संचालन",
+    "fleetStatusOverview": "बेड़ा स्थिति अवलोकन",
+    "standby": "स्टैंडबाय",
+    "ready": "तैयार",
+    "maintenance": "रखरखाव",
+    "inService": "सेवा में",
+    "fleetManagement": "बेड़ा प्रबंधन",
+    "fleetDescription": "25 KMRL ट्रेनसेट के लिए रियल-टाइम बेड़ा स्थिति और प्रदर्शन मॉनिटरिंग",
+    "aiInductionPlanner": "AI प्रेरण योजनाकार",
+    "schedulingDescription": "बुद्धिमान शेड्यूलिंग और संघर्ष समाधान",
+    "maintenanceHub": "रखरखाव हब",
+    "maintenanceDescription": "जॉब कार्ड, सफाई शेड्यूल, और भविष्य कहनेवाला रखरखाव",
+    "analyticsReports": "विश्लेषण और रिपोर्ट",
+    "analyticsDescription": "प्रदर्शन अंतर्दृष्टि और भविष्य कहनेवाला विश्लेषण"
+  },
+  "fleet": {
+    "title": "बेड़ा प्रबंधन",
+    "description": "25 KMRL ट्रेनसेट के लिए रियल-टाइम बेड़ा स्थिति और प्रदर्शन मॉनिटरिंग",
+    "trainNumber": "ट्रेन नंबर",
+    "status": "स्थिति",
+    "location": "स्थान",
+    "nextMaintenance": "अगला रखरखाव",
+    "lastService": "अंतिम सेवा",
+    "operatingHours": "संचालन घंटे",
+    "efficiency": "दक्षता",
+    "actions": "कार्य"
+  },
+  "maintenance": {
+    "title": "रखरखाव हब",
+    "description": "जॉब कार्ड, सफाई शेड्यूल, और भविष्य कहनेवाला रखरखाव",
+    "jobCards": "जॉब कार्ड",
+    "scheduledMaintenance": "निर्धारित रखरखाव",
+    "predictiveMaintenance": "भविष्य कहनेवाला रखरखाव",
+    "cleaningSchedule": "सफाई शेड्यूल",
+    "maintenanceHistory": "रखरखाव इतिहास",
+    "partsInventory": "पुर्जे इन्वेंटरी"
+  },
+  "scheduling": {
+    "title": "AI प्रेरण योजनाकार",
+    "description": "बुद्धिमान शेड्यूलिंग और संघर्ष समाधान",
+    "inductionPlan": "प्रेरण योजना",
+    "conflictResolution": "संघर्ष समाधान",
+    "scheduleOptimization": "शेड्यूल अनुकूलन",
+    "resourceAllocation": "संसाधन आवंटन"
+  },
+  "analytics": {
+    "title": "विश्लेषण और रिपोर्ट",
+    "description": "प्रदर्शन अंतर्दृष्टि और भविष्य कहनेवाला विश्लेषण",
+    "performanceMetrics": "प्रदर्शन मेट्रिक्स",
+    "predictiveAnalytics": "भविष्य कहनेवाला विश्लेषण",
+    "reports": "रिपोर्ट",
+    "insights": "अंतर्दृष्टि"
+  },
+  "users": {
+    "title": "उपयोगकर्ता प्रबंधन",
+    "description": "सिस्टम उपयोगकर्ताओं और अनुमतियों का प्रबंधन करें",
+    "addUser": "उपयोगकर्ता जोड़ें",
+    "editUser": "उपयोगकर्ता संपादित करें",
+    "deleteUser": "उपयोगकर्ता हटाएं",
+    "userRole": "उपयोगकर्ता भूमिका",
+    "permissions": "अनुमतियां",
+    "activeUsers": "सक्रिय उपयोगकर्ता"
+  },
+  "settings": {
+    "title": "सिस्टम सेटिंग्स",
+    "description": "सिस्टम पैरामीटर और प्राथमिकताएं कॉन्फ़िगर करें",
+    "generalSettings": "सामान्य सेटिंग्स",
+    "securitySettings": "सुरक्षा सेटिंग्स",
+    "notificationSettings": "अधिसूचना सेटिंग्स",
+    "systemPreferences": "सिस्टम प्राथमिकताएं"
+  },
+  "alerts": {
+    "title": "अलर्ट और लॉग",
+    "description": "सिस्टम अलर्ट और गतिविधि लॉग",
+    "activeAlerts": "सक्रिय अलर्ट",
+    "systemLogs": "सिस्टम लॉग",
+    "alertHistory": "अलर्ट इतिहास",
+    "acknowledge": "स्वीकार करें",
+    "resolve": "हल करें"
+  },
+  "time": {
+    "currentTime": "वर्तमान समय",
+    "lastUpdated": "अंतिम अपडेट",
+    "timeZone": "समय क्षेत्र"
+  },
+  "depotManagement": {
+    "title": "डिपो प्रबंधन",
+    "description": "डिपो संचालन, स्थिर खण्डों और सुविधा उपयोग का प्रबंधन करें",
+    "refresh": "ताज़ा करें",
+    "addDepot": "डिपो जोड़ें",
+    "createDepot": "नया डिपो बनाएं",
+    "validationError": "कृपया सभी आवश्यक फ़ील्ड भरें",
+    "success": "डिपो सफलतापूर्वक बनाया गया",
+    "errorLoading": "डिपो डेटा लोड करने में त्रुटि",
+    "errorCreating": "डिपो बनाने में त्रुटि",
+    "totalDepots": "कुल डिपो",
+    "operational": "संचालनात्मक",
+    "totalBays": "कुल खण्ड",
+    "availableBays": "उपलब्ध खण्ड"
+  }
+}

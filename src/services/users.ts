@@ -1,5 +1,5 @@
 // User Management API Service
-const BASE_URL = 'https://kmrl-backend-qjvw.onrender.com/api/v1/accounts';
+const BASE_URL = 'http://localhost:8000/api/v1/accounts';
 
 export interface Department {
   id: string;

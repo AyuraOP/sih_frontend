@@ -1,0 +1,174 @@
+{
+  "common": {
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    "error": "ದೋಷ",
+    "success": "ಯಶಸ್ಸು",
+    "cancel": "ರದ್ದುಗೊಳಿಸಿ",
+    "save": "ಉಳಿಸಿ",
+    "edit": "ಸಂಪಾದಿಸಿ",
+    "delete": "ಅಳಿಸಿ",
+    "confirm": "ದೃಢೀಕರಿಸಿ",
+    "close": "ಮುಚ್ಚಿ",
+    "back": "ಹಿಂದೆ",
+    "next": "ಮುಂದೆ",
+    "previous": "ಹಿಂದಿನ",
+    "search": "ಹುಡುಕಿ",
+    "filter": "ಫಿಲ್ಟರ್",
+    "refresh": "ರಿಫ್ರೆಶ್ ಮಾಡಿ",
+    "logout": "ಲಾಗ್ ಔಟ್",
+    "login": "ಲಾಗ್ ಇನ್",
+    "email": "ಇಮೇಲ್",
+    "password": "ಪಾಸ್ವರ್ಡ್",
+    "submit": "ಸಲ್ಲಿಸಿ",
+    "reset": "ರೀಸೆಟ್"
+  },
+  "navigation": {
+    "dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "fleetManagement": "ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ",
+    "DepotManagement":"ಡಿಪೋ ನಿರ್ವಹಣೆ",
+    "scheduling": "ವೇಳಾಪಟ್ಟಿ",
+    "maintenance": "ನಿರ್ವಹಣೆ",
+    "analytics": "ವಿಶ್ಲೇಷಣೆ",
+    "userManagement": "ಬಳಕೆದಾರ ನಿರ್ವಹಣೆ",
+    "systemSettings": "ಸಿಸ್ಟಮ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "alertsLogs": "ಎಚ್ಚರಿಕೆಗಳು ಮತ್ತು ಲಾಗ್‌ಗಳು",
+    "operations": "ಕಾರ್ಯಾಚರಣೆಗಳು",
+    "administration": "ಆಡಳಿತ"
+  },
+  "login": {
+    "title": "ಕೊಚ್ಚಿ ಮೆಟ್ರೋ ರೈಲು",
+    "subtitle": "ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ ವ್ಯವಸ್ಥೆ",
+    "description": "ಕೊಚ್ಚಿಯ ಸಾರಿಗೆ ಜಾಲದಾದ್ಯಂತ ನಿರಂತರ ಮೆಟ್ರೋ ಕಾರ್ಯಾಚರಣೆಗಳಿಗಾಗಿ ಸುಧಾರಿತ AI-ಚಾಲಿತ ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ ಮತ್ತು ಪ್ರೇರಣೆ ಯೋಜನೆ ವ್ಯವಸ್ಥೆ.",
+    "systemAccess": "ಸಿಸ್ಟಮ್ ಪ್ರವೇಶ",
+    "enterCredentials": "ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಪ್ರವೇಶಿಸಲು ನಿಮ್ಮ ಅಧಿಕಾರಗಳನ್ನು ನಮೂದಿಸಿ",
+    "emailAddress": "ಇಮೇಲ್ ವಿಳಾಸ",
+    "enterEmail": "ನಿಮ್ಮ ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
+    "enterPassword": "ನಿಮ್ಮ ಪಾಸ್ವರ್ಡ್ ಅನ್ನು ನಮೂದಿಸಿ",
+    "accessDashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಪ್ರವೇಶಿಸಿ",
+    "authenticating": "ದೃಢೀಕರಿಸುತ್ತಿದೆ...",
+    "loginSuccessful": "ಲಾಗ್ ಇನ್ ಯಶಸ್ವಿ",
+    "welcomeMessage": "ಕೊಚ್ಚಿ ಮೆಟ್ರೋ ರೈಲು ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ ವ್ಯವಸ್ಥೆಗೆ ಸ್ವಾಗತ",
+    "loginFailed": "ಲಾಗ್ ಇನ್ ವಿಫಲ",
+    "validationError": "ಮೌಲ್ಯೀಕರಣ ದೋಷ",
+    "enterBothCredentials": "ದಯವಿಟ್ಟು ಇಮೇಲ್ ಮತ್ತು ಪಾಸ್ವರ್ಡ್ ಎರಡನ್ನೂ ನಮೂದಿಸಿ",
+    "demoMode": "ಡೆಮೋ ಮೋಡ್:",
+    "useCredentials": "admin@kmrl.com / admin123 ಅಥವಾ operator@kmrl.com / operator123 ಬಳಸಿ",
+    "governmentKerala": "ಕೇರಳ ಸರ್ಕಾರ • ಕೊಚ್ಚಿ ಮೆಟ್ರೋ ರೈಲು ಲಿಮಿಟೆಡ್",
+    "features": {
+      "realTimeMonitoring": {
+        "title": "ರಿಯಲ್-ಟೈಮ್ ಮಾನಿಟರಿಂಗ್",
+        "description": "ಲೈವ್ ಸ್ಥಿತಿ ನವೀಕರಣಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ಮೆಟ್ರಿಕ್‌ಗಳೊಂದಿಗೆ 25 ರೈಲು ಸೆಟ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ"
+      },
+      "aiPoweredPlanning": {
+        "title": "AI-ಚಾಲಿತ ಯೋಜನೆ",
+        "description": "ಭವಿಷ್ಯದ ನಿರ್ವಹಣೆ ಮತ್ತು ಅತ್ಯುತ್ತಮೀಕರಣದೊಂದಿಗೆ ಬುದ್ಧಿವಂತ ವೇಳಾಪಟ್ಟಿ"
+      },
+      "operationsCenter": {
+        "title": "ಕಾರ್ಯಾಚರಣೆ ಕೇಂದ್ರ",
+        "description": "ಸರ್ಕಾರಿ ಸಾರಿಗೆ ಕಾರ್ಯಾಚರಣೆಗಳಿಗಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ 24/7 ನಿಯಂತ್ರಣ ಕೋಣೆ ಇಂಟರ್ಫೇಸ್"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "subtitle": "ಕೊಚ್ಚಿ ಮೆಟ್ರೋ ರೈಲಿಗಾಗಿ ರಿಯಲ್-ಟೈಮ್ ಮಾನಿಟರಿಂಗ್ ಮತ್ತು AI-ಚಾಲಿತ ಕಾರ್ಯಾಚರಣೆಗಳು",
+    "fleetStatusOverview": "ನೌಕಾಪಡೆ ಸ್ಥಿತಿ ಅವಲೋಕನ",
+    "standby": "ಸ್ಟ್ಯಾಂಡ್‌ಬೈ",
+    "ready": "ಸಿದ್ಧ",
+    "maintenance": "ನಿರ್ವಹಣೆ",
+    "inService": "ಸೇವೆಯಲ್ಲಿ",
+    "fleetManagement": "ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ",
+    "fleetDescription": "25 KMRL ರೈಲು ಸೆಟ್‌ಗಳಿಗಾಗಿ ರಿಯಲ್-ಟೈಮ್ ನೌಕಾಪಡೆ ಸ್ಥಿತಿ ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ಮಾನಿಟರಿಂಗ್",
+    "aiInductionPlanner": "AI ಪ್ರೇರಣೆ ಯೋಜಕ",
+    "schedulingDescription": "ಬುದ್ಧಿವಂತ ವೇಳಾಪಟ್ಟಿ ಮತ್ತು ಸಂಘರ್ಷ ಪರಿಹಾರ",
+    "maintenanceHub": "ನಿರ್ವಹಣೆ ಹಬ್",
+    "maintenanceDescription": "ಕೆಲಸದ ಕಾರ್ಡ್‌ಗಳು, ಸ್ವಚ್ಛತೆ ವೇಳಾಪಟ್ಟಿ, ಮತ್ತು ಭವಿಷ್ಯದ ನಿರ್ವಹಣೆ",
+    "analyticsReports": "ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ವರದಿಗಳು",
+    "analyticsDescription": "ಕಾರ್ಯಕ್ಷಮತೆ ಒಳನೋಟಗಳು ಮತ್ತು ಭವಿಷ್ಯದ ವಿಶ್ಲೇಷಣೆ"
+  },
+  "fleet": {
+    "title": "ನೌಕಾಪಡೆ ನಿರ್ವಹಣೆ",
+    "description": "25 KMRL ರೈಲು ಸೆಟ್‌ಗಳಿಗಾಗಿ ರಿಯಲ್-ಟೈಮ್ ನೌಕಾಪಡೆ ಸ್ಥಿತಿ ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ಮಾನಿಟರಿಂಗ್",
+    "trainNumber": "ರೈಲು ಸಂಖ್ಯೆ",
+    "status": "ಸ್ಥಿತಿ",
+    "location": "ಸ್ಥಳ",
+    "nextMaintenance": "ಮುಂದಿನ ನಿರ್ವಹಣೆ",
+    "lastService": "ಕೊನೆಯ ಸೇವೆ",
+    "operatingHours": "ಕಾರ್ಯಾಚರಣೆ ಗಂಟೆಗಳು",
+    "efficiency": "ದಕ್ಷತೆ",
+    "actions": "ಕ್ರಿಯೆಗಳು"
+  },
+  "maintenance": {
+    "title": "ನಿರ್ವಹಣೆ ಹಬ್",
+    "description": "ಕೆಲಸದ ಕಾರ್ಡ್‌ಗಳು, ಸ್ವಚ್ಛತೆ ವೇಳಾಪಟ್ಟಿ, ಮತ್ತು ಭವಿಷ್ಯದ ನಿರ್ವಹಣೆ",
+    "jobCards": "ಕೆಲಸದ ಕಾರ್ಡ್‌ಗಳು",
+    "scheduledMaintenance": "ನಿಗದಿತ ನಿರ್ವಹಣೆ",
+    "predictiveMaintenance": "ಭವಿಷ್ಯದ ನಿರ್ವಹಣೆ",
+    "cleaningSchedule": "ಸ್ವಚ್ಛತೆ ವೇಳಾಪಟ್ಟಿ",
+    "maintenanceHistory": "ನಿರ್ವಹಣೆ ಇತಿಹಾಸ",
+    "partsInventory": "ಭಾಗಗಳ ಸರಕು"
+  },
+  "scheduling": {
+    "title": "AI ಪ್ರೇರಣೆ ಯೋಜಕ",
+    "description": "ಬುದ್ಧಿವಂತ ವೇಳಾಪಟ್ಟಿ ಮತ್ತು ಸಂಘರ್ಷ ಪರಿಹಾರ",
+    "inductionPlan": "ಪ್ರೇರಣೆ ಯೋಜನೆ",
+    "conflictResolution": "ಸಂಘರ್ಷ ಪರಿಹಾರ",
+    "scheduleOptimization": "ವೇಳಾಪಟ್ಟಿ ಅತ್ಯುತ್ತಮೀಕರಣ",
+    "resourceAllocation": "ಸಂಪನ್ಮೂಲ ಹಂಚಿಕೆ"
+  },
+  "analytics": {
+    "title": "ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ವರದಿಗಳು",
+    "description": "ಕಾರ್ಯಕ್ಷಮತೆ ಒಳನೋಟಗಳು ಮತ್ತು ಭವಿಷ್ಯದ ವಿಶ್ಲೇಷಣೆ",
+    "performanceMetrics": "ಕಾರ್ಯಕ್ಷಮತೆ ಮೆಟ್ರಿಕ್‌ಗಳು",
+    "predictiveAnalytics": "ಭವಿಷ್ಯದ ವಿಶ್ಲೇಷಣೆ",
+    "reports": "ವರದಿಗಳು",
+    "insights": "ಒಳನೋಟಗಳು"
+  },
+  "users": {
+    "title": "ಬಳಕೆದಾರ ನಿರ್ವಹಣೆ",
+    "description": "ಸಿಸ್ಟಮ್ ಬಳಕೆದಾರರು ಮತ್ತು ಅನುಮತಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
+    "addUser": "ಬಳಕೆದಾರರನ್ನು ಸೇರಿಸಿ",
+    "editUser": "ಬಳಕೆದಾರರನ್ನು ಸಂಪಾದಿಸಿ",
+    "deleteUser": "ಬಳಕೆದಾರರನ್ನು ಅಳಿಸಿ",
+    "userRole": "ಬಳಕೆದಾರ ಪಾತ್ರ",
+    "permissions": "ಅನುಮತಿಗಳು",
+    "activeUsers": "ಸಕ್ರಿಯ ಬಳಕೆದಾರರು"
+  },
+  "settings": {
+    "title": "ಸಿಸ್ಟಮ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "description": "ಸಿಸ್ಟಮ್ ನಿಯತಾಂಕಗಳು ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು ಕಾನ್ಫಿಗರ್ ಮಾಡಿ",
+    "generalSettings": "ಸಾಮಾನ್ಯ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "securitySettings": "ಭದ್ರತಾ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "notificationSettings": "ಅಧಿಸೂಚನೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "systemPreferences": "ಸಿಸ್ಟಮ್ ಆದ್ಯತೆಗಳು"
+  },
+  "alerts": {
+    "title": "ಎಚ್ಚರಿಕೆಗಳು ಮತ್ತು ಲಾಗ್‌ಗಳು",
+    "description": "ಸಿಸ್ಟಮ್ ಎಚ್ಚರಿಕೆಗಳು ಮತ್ತು ಚಟುವಟಿಕೆ ಲಾಗ್‌ಗಳು",
+    "activeAlerts": "ಸಕ್ರಿಯ ಎಚ್ಚರಿಕೆಗಳು",
+    "systemLogs": "ಸಿಸ್ಟಮ್ ಲಾಗ್‌ಗಳು",
+    "alertHistory": "ಎಚ್ಚರಿಕೆ ಇತಿಹಾಸ",
+    "acknowledge": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
+    "resolve": "ಪರಿಹರಿಸಿ"
+  },
+  "time": {
+    "currentTime": "ಪ್ರಸ್ತುತ ಸಮಯ",
+    "lastUpdated": "ಕೊನೆಯ ಬಾರಿ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "timeZone": "ಸಮಯ ವಲಯ"
+  },
+  "depotManagement": {
+    "title": "ಡಿಪೋ ನಿರ್ವಹಣೆ",
+    "description": "ಡಿಪೋ ಕಾರ್ಯಾಚರಣೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ, ಸ್ಥಿರ ಬೇಗಳು ಮತ್ತು ಸೌಲಭ್ಯ ಬಳಕೆ",
+    "refresh": "ರಿಫ್ರೆಶ್ ಮಾಡಿ",
+    "addDepot": "ಡಿಪೋ ಸೇರಿಸಿ",
+    "createDepot": "ಹೊಸ ಡಿಪೋ ರಚಿಸಿ",
+    "validationError": "ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಅಗತ್ಯ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ",
+    "success": "ಡಿಪೋ ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ",
+    "errorLoading": "ಡಿಪೋ ಡೇಟಾ ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ",
+    "errorCreating": "ಡಿಪೋ ರಚಿಸುವಲ್ಲಿ ದೋಷ",
+    "totalDepots": "ಒಟ್ಟು ಡಿಪೋಗಳು",
+    "operational": "ಚಾಲನೆಯಲ್ಲಿದೆ",
+    "totalBays": "ಒಟ್ಟು ಬೇಗಳು",
+    "availableBays": "ಲಭ್ಯ ಬೇಗಳು"
+  }
+}

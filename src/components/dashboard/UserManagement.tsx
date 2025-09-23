@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
-import { useAuthInterceptor } from "@/hooks/use-auth-interceptor";
 import { userService, User, Department, Role, CreateUserRequest } from "@/services/users";
 import { toast } from "@/hooks/use-toast";
 import { 
@@ -38,7 +37,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 const UserManagement = () => {
   const { token } = useAuth();
-  const { authenticatedFetch } = useAuthInterceptor();
   const [users, setUsers] = useState<User[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);

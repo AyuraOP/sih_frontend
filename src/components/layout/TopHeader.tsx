@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +25,7 @@ import {
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@/contexts/AuthContext";
-import SessionManager from "@/components/session/SessionManager";
+import LanguageSelector from "@/components/LanguageSelector";
 
 interface TopHeaderProps {
   currentTime: Date;
@@ -33,8 +34,9 @@ interface TopHeaderProps {
 }
 
 const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSidebar }) => {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const { user, sessionInfo } = useAuth();
+  const { user } = useAuth();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
@@ -164,7 +166,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
           <div className="relative">
             <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             <Input
-              placeholder="Search trains, schedules..."
+              placeholder={t('common.search')}
               className="pl-7 sm:pl-10 h-8 sm:h-9 text-sm"
             />
           </div>
@@ -172,6 +174,9 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
       </div>
 
       <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
+        {/* Language Selector */}
+        <LanguageSelector />
+
         {/* Operations Center Info - Mobile */}
         <div className="hidden sm:flex md:hidden items-center space-x-2">
           <div className="text-right">
@@ -192,7 +197,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
         <div className="hidden md:flex items-center space-x-3">
           <div className="text-right">
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium">Operations Center</span>
+              <span className="text-sm font-medium">{t('navigation.operations')} Center</span>
               <div className="flex items-center space-x-1">
                 <Wifi className="h-3 w-3 text-success" />
                 <span className="text-xs text-success font-medium">Live Updates Active</span>
@@ -367,30 +372,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
                     <p className="text-xs text-muted-foreground">Role</p>
                     <div className="flex items-center space-x-2">
                       <Badge variant="secondary" className="text-xs">
-                        {user?.role ? (typeof user.role === 'object' ? user.role.name : user.role) : user?.designation || 'User'}
+                        {user?.role || 'User'}
                       </Badge>
                     </div>
                   </div>
                 </div>
-                
-                {sessionInfo && (
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs text-muted-foreground">Session</p>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs font-medium">
-                          {sessionInfo.active_sessions_count}/{sessionInfo.max_sessions} active
-                        </span>
-                        {sessionInfo.is_expiring_soon && (
-                          <Badge variant="destructive" className="text-xs">
-                            Expiring Soon
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
               
               {/* Action Buttons */}
@@ -408,9 +394,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({ currentTime, onLogout, onToggleSi
             </div>
           </PopoverContent>
         </Popover>
-
-        {/* Session Manager */}
-        <SessionManager />
 
         {/* Logout */}
         <Button variant="ghost" size="sm" onClick={handleLogoutClick} className="h-8 w-8 sm:h-9 sm:w-9 p-0">

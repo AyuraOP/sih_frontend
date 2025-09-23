@@ -1,5 +1,5 @@
 // Fleet Management API Service
-const BASE_URL = 'https://kmrl-backend-qjvw.onrender.com/api/v1/fleet-management';
+const BASE_URL = 'http://localhost:8000/api/v1/fleet_management';
 
 export interface TrainsetType {
   id: string;

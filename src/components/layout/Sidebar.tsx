@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -25,22 +26,23 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isCollapsed, onToggle, alertCount = 0 }) => {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   const navigationItems = [
-    { id: "dashboard", icon: BarChart3, label: "Dashboard", section: "Operations" },
-    { id: "fleet", icon: Train, label: "Fleet Management", section: "Operations" },
-    { id: "depot", icon: Grid3X3, label: "Depot Management", section: "Operations" },
-    { id: "scheduling", icon: Calendar, label: "Scheduling", section: "Operations" },
-    { id: "maintenance", icon: Wrench, label: "Maintenance", section: "Operations" },
-    { id: "analytics", icon: BarChart3, label: "Analytics", section: "Operations" },
-    { id: "users", icon: Users, label: "User Management", section: "Administration" },
-    { id: "settings", icon: Settings, label: "System Settings", section: "Administration" },
-    { id: "alerts", icon: AlertTriangle, label: "Alerts & Logs", section: "Administration", badge: alertCount > 0 ? alertCount.toString() : undefined }
+    { id: "dashboard", icon: BarChart3, label: t('navigation.dashboard'), section: t('navigation.operations') },
+    { id: "fleet", icon: Train, label: t('navigation.fleetManagement'), section: t('navigation.operations') },
+    { id: "depotManagement", icon: Grid3X3, label: t('navigation.DepotManagement'), section: t('navigation.operations') },
+    { id: "scheduling", icon: Calendar, label: t('navigation.scheduling'), section: t('navigation.operations') },
+    { id: "maintenance", icon: Wrench, label: t('navigation.maintenance'), section: t('navigation.operations') },
+    { id: "analytics", icon: BarChart3, label: t('navigation.analytics'), section: t('navigation.operations') },
+    { id: "users", icon: Users, label: t('navigation.userManagement'), section: t('navigation.administration') },
+    { id: "settings", icon: Settings, label: t('navigation.systemSettings'), section: t('navigation.administration') },
+    { id: "alerts", icon: AlertTriangle, label: t('navigation.alertsLogs'), section: t('navigation.administration'), badge: alertCount > 0 ? alertCount.toString() : undefined }
   ];
 
-  const operationsItems = navigationItems.filter(item => item.section === "Operations");
-  const administrationItems = navigationItems.filter(item => item.section === "Administration");
+  const operationsItems = navigationItems.filter(item => item.section === t('navigation.operations'));
+  const administrationItems = navigationItems.filter(item => item.section === t('navigation.administration'));
 
   const renderNavItem = (item: any) => (
     <Button

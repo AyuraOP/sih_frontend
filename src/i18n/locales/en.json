@@ -1,0 +1,174 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "refresh": "Refresh",
+    "logout": "Logout",
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "reset": "Reset"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "fleetManagement": "Fleet Management",
+    "scheduling": "Scheduling",
+    "DepotManagement": "Depot Management",
+    "maintenance": "Maintenance",
+    "analytics": "Analytics",
+    "userManagement": "User Management",
+    "systemSettings": "System Settings",
+    "alertsLogs": "Alerts & Logs",
+    "operations": "Operations",
+    "administration": "Administration"
+  },
+  "login": {
+    "title": "Kochi Metro Rail",
+    "subtitle": "Fleet Management System",
+    "description": "Advanced AI-powered fleet management and induction planning system for seamless metro operations across Kochi's transport network.",
+    "systemAccess": "System Access",
+    "enterCredentials": "Enter your credentials to access the fleet management dashboard",
+    "emailAddress": "Email Address",
+    "enterEmail": "Enter your email address",
+    "enterPassword": "Enter your password",
+    "accessDashboard": "Access Dashboard",
+    "authenticating": "Authenticating...",
+    "loginSuccessful": "Login Successful",
+    "welcomeMessage": "Welcome to Kochi Metro Rail Fleet Management System",
+    "loginFailed": "Login Failed",
+    "validationError": "Validation Error",
+    "enterBothCredentials": "Please enter both email and password",
+    "demoMode": "Demo Mode:",
+    "useCredentials": "Use admin@kmrl.com / admin123 or operator@kmrl.com / operator123",
+    "governmentKerala": "Government of Kerala • Kochi Metro Rail Limited",
+    "features": {
+      "realTimeMonitoring": {
+        "title": "Real-time Monitoring",
+        "description": "Track 25 trainsets with live status updates and performance metrics"
+      },
+      "aiPoweredPlanning": {
+        "title": "AI-Powered Planning",
+        "description": "Intelligent scheduling with predictive maintenance and optimization"
+      },
+      "operationsCenter": {
+        "title": "Operations Center",
+        "description": "24/7 control room interface designed for government transit operations"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Fleet Management Dashboard",
+    "subtitle": "Real-time monitoring and AI-powered operations for Kochi Metro Rail",
+    "fleetStatusOverview": "Fleet Status Overview",
+    "standby": "Standby",
+    "ready": "Ready",
+    "maintenance": "Maintenance",
+    "inService": "In Service",
+    "fleetManagement": "Fleet Management",
+    "fleetDescription": "Real-time fleet status and performance monitoring for 25 KMRL trainsets",
+    "aiInductionPlanner": "AI Induction Planner",
+    "schedulingDescription": "Intelligent scheduling and conflict resolution",
+    "maintenanceHub": "Maintenance Hub",
+    "maintenanceDescription": "Job cards, cleaning schedules, and predictive maintenance",
+    "analyticsReports": "Analytics & Reports",
+    "analyticsDescription": "Performance insights and predictive analytics"
+  },
+  "fleet": {
+    "title": "Fleet Management",
+    "description": "Real-time fleet status and performance monitoring for 25 KMRL trainsets",
+    "trainNumber": "Train Number",
+    "status": "Status",
+    "location": "Location",
+    "nextMaintenance": "Next Maintenance",
+    "lastService": "Last Service",
+    "operatingHours": "Operating Hours",
+    "efficiency": "Efficiency",
+    "actions": "Actions"
+  },
+  "maintenance": {
+    "title": "Maintenance Hub",
+    "description": "Job cards, cleaning schedules, and predictive maintenance",
+    "jobCards": "Job Cards",
+    "scheduledMaintenance": "Scheduled Maintenance",
+    "predictiveMaintenance": "Predictive Maintenance",
+    "cleaningSchedule": "Cleaning Schedule",
+    "maintenanceHistory": "Maintenance History",
+    "partsInventory": "Parts Inventory"
+  },
+  "scheduling": {
+    "title": "AI Induction Planner",
+    "description": "Intelligent scheduling and conflict resolution",
+    "inductionPlan": "Induction Plan",
+    "conflictResolution": "Conflict Resolution",
+    "scheduleOptimization": "Schedule Optimization",
+    "resourceAllocation": "Resource Allocation"
+  },
+  "analytics": {
+    "title": "Analytics & Reports",
+    "description": "Performance insights and predictive analytics",
+    "performanceMetrics": "Performance Metrics",
+    "predictiveAnalytics": "Predictive Analytics",
+    "reports": "Reports",
+    "insights": "Insights"
+  },
+  "users": {
+    "title": "User Management",
+    "description": "Manage system users and permissions",
+    "addUser": "Add User",
+    "editUser": "Edit User",
+    "deleteUser": "Delete User",
+    "userRole": "User Role",
+    "permissions": "Permissions",
+    "activeUsers": "Active Users"
+  },
+  "settings": {
+    "title": "System Settings",
+    "description": "Configure system parameters and preferences",
+    "generalSettings": "General Settings",
+    "securitySettings": "Security Settings",
+    "notificationSettings": "Notification Settings",
+    "systemPreferences": "System Preferences"
+  },
+  "alerts": {
+    "title": "Alerts & Logs",
+    "description": "System alerts and activity logs",
+    "activeAlerts": "Active Alerts",
+    "systemLogs": "System Logs",
+    "alertHistory": "Alert History",
+    "acknowledge": "Acknowledge",
+    "resolve": "Resolve"
+  },
+  "time": {
+    "currentTime": "Current Time",
+    "lastUpdated": "Last Updated",
+    "timeZone": "Time Zone"
+  },
+  "depotManagement": {
+    "title": "Depot Management",
+    "description": "Manage depot operations, stabling bays, and facility utilization",
+    "refresh": "Refresh",
+    "addDepot": "Add Depot",
+    "createDepot": "Create New Depot",
+    "validationError": "Please fill in all required fields",
+    "success": "Depot created successfully",
+    "errorLoading": "Error loading depot data",
+    "errorCreating": "Error creating depot",
+    "totalDepots": "Total Depots",
+    "operational": "Operational",
+    "totalBays": "Total Bays",
+    "availableBays": "Available Bays"
+  }
+}

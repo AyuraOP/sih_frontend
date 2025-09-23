@@ -1,5 +1,5 @@
 // Authentication API Service for KMRL Fleet Management System - JWT Implementation
-const BASE_URL = 'https://kmrl-backend-qjvw.onrender.com/api/v1/accounts';
+const BASE_URL = 'http://localhost:8000/api/v1/accounts';
 
 export interface LoginRequest {
   email: string;
@@ -138,60 +138,60 @@ class AuthService {
     return response.json();
   }
 
-  // Mock login for development
-  private async mockLogin(credentials: LoginRequest): Promise<LoginResponse> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  // // Mock login for development
+  // private async mockLogin(credentials: LoginRequest): Promise<LoginResponse> {
+  //   await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const mockUser: UserProfile = {
-      id: '1',
-      email: credentials.email,
-      employee_id: 'EMP001',
-      first_name: 'System',
-      last_name: 'Administrator',
-      designation: 'System Administrator',
-      grade: 'SA',
-      shift_type: 'DAY',
-      is_active: true,
-      must_change_password: false
-    };
+  //   const mockUser: UserProfile = {
+  //     id: '1',
+  //     email: credentials.email,
+  //     employee_id: 'EMP001',
+  //     first_name: 'System',
+  //     last_name: 'Administrator',
+  //     designation: 'System Administrator',
+  //     grade: 'SA',
+  //     shift_type: 'DAY',
+  //     is_active: true,
+  //     must_change_password: false
+  //   };
 
-    if (credentials.email === 'admin@gmail.com' && credentials.password === '1234') {
-      return {
-        access: 'mock-jwt-access-token-' + Date.now(),
-        refresh: 'mock-jwt-refresh-token-' + Date.now(),
-        access_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour
-        refresh_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours
-        user: mockUser,
-        max_sessions: 3,
-        active_sessions_count: 1,
-        session_id: 'mock-session-' + Date.now(),
-        message: 'Mock login successful'
-      };
-    } else if (credentials.password === '1234') {
-      return {
-        access: 'mock-jwt-access-token-' + Date.now(),
-        refresh: 'mock-jwt-refresh-token-' + Date.now(),
-        access_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-        refresh_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        user: {
-          ...mockUser,
-          id: '2',
-          email: credentials.email,
-          employee_id: 'EMP002',
-          first_name: 'Fleet',
-          last_name: 'Operator',
-          designation: 'Operations Manager',
-          grade: 'OM'
-        },
-        max_sessions: 1,
-        active_sessions_count: 1,
-        session_id: 'mock-session-' + Date.now(),
-        message: 'Mock login successful'
-      };
-    } else {
-      throw new Error('Invalid credentials. Use password "1234" for any email address');
-    }
-  }
+  //   if (credentials.email === 'admin@gmail.com' && credentials.password === '1234') {
+  //     return {
+  //       access: 'mock-jwt-access-token-' + Date.now(),
+  //       refresh: 'mock-jwt-refresh-token-' + Date.now(),
+  //       access_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour
+  //       refresh_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours
+  //       user: mockUser,
+  //       max_sessions: 3,
+  //       active_sessions_count: 1,
+  //       session_id: 'mock-session-' + Date.now(),
+  //       message: 'Mock login successful'
+  //     };
+  //   } else if (credentials.password === '1234') {
+  //     return {
+  //       access: 'mock-jwt-access-token-' + Date.now(),
+  //       refresh: 'mock-jwt-refresh-token-' + Date.now(),
+  //       access_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+  //       refresh_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  //       user: {
+  //         ...mockUser,
+  //         id: '2',
+  //         email: credentials.email,
+  //         employee_id: 'EMP002',
+  //         first_name: 'Fleet',
+  //         last_name: 'Operator',
+  //         designation: 'Operations Manager',
+  //         grade: 'OM'
+  //       },
+  //       max_sessions: 1,
+  //       active_sessions_count: 1,
+  //       session_id: 'mock-session-' + Date.now(),
+  //       message: 'Mock login successful'
+  //     };
+  //   } else {
+  //     throw new Error('Invalid credentials. Use password "1234" for any email address');
+  //   }
+  // }
 
   // 1. User Login with JWT
   async login(credentials: LoginRequest): Promise<LoginResponse> {
@@ -206,7 +206,7 @@ class AuthService {
     } catch (error) {
       if (import.meta.env.DEV) {
         console.warn('Backend unavailable, using mock login:', error);
-        return this.mockLogin(credentials);
+        // return this.mockLogin(credentials);
       }
       throw error;
     }
@@ -215,7 +215,7 @@ class AuthService {
   // 2. Get Auth Token (Alternative login method) - Updated for JWT
   async getToken(credentials: TokenRequest): Promise<LoginResponse> {
     if (import.meta.env.DEV && !import.meta.env.VITE_API_URL) {
-      return this.mockLogin({ email: credentials.username, password: credentials.password });
+      // return this.mockLogin({ email: credentials.username, password: credentials.password });
     }
 
     try {
@@ -232,7 +232,7 @@ class AuthService {
       return this.handleResponse<LoginResponse>(response);
     } catch (error) {
       if (import.meta.env.DEV) {
-        return this.mockLogin({ email: credentials.username, password: credentials.password });
+        // return this.mockLogin({ email: credentials.username, password: credentials.password });
       }
       throw error;
     }

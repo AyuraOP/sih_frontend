@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -33,13 +34,13 @@ import {
   Route
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useAuthInterceptor } from "@/hooks/use-auth-interceptor";
 import { depotService, Depot, StablingBay, CleaningSlot, ShuntingPlan, DepotEvent } from "@/services/depot";
 import { toast } from "@/hooks/use-toast";
 
 const DepotManagement = () => {
+  const { t } = useTranslation();
   const { token } = useAuth();
-  const { authenticatedFetch } = useAuthInterceptor();
+  console.log(token)
   const [depots, setDepots] = useState<Depot[]>([]);
   const [stablingBays, setStablingBays] = useState<StablingBay[]>([]);
   const [cleaningSlots, setCleaningSlots] = useState<CleaningSlot[]>([]);
@@ -51,6 +52,7 @@ const DepotManagement = () => {
   const [showCreateDepotDialog, setShowCreateDepotDialog] = useState(false);
   const [newDepot, setNewDepot] = useState<Partial<Depot>>({});
 
+  console.log(token)
   useEffect(() => {
     if (token) {
       loadDepotData();
@@ -177,16 +179,16 @@ const DepotManagement = () => {
       {/* <div className="flex items-center justify-between"> */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Depot Management</h1>
-          <p className="text-muted-foreground">Manage depot operations, stabling bays, and facility utilization</p>
+          <h1 className="text-2xl font-bold text-foreground">{t('depotManagement.title')}</h1>
+          <p className="text-muted-foreground">{t('depotManagement.description')}</p>
         </div>
         {/* <div className="flex items-center space-x-2">
           <Button variant="outline" size="sm" onClick={loadDepotData}>
             <RefreshCw className="h-4 w-4 mr-2" /> */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-            <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={loadDepotData} >
-            Refresh
-          </Button>
+            <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={loadDepotData}>
+              {t('depotManagement.refresh')}
+            </Button>
           <Dialog open={showCreateDepotDialog} onOpenChange={setShowCreateDepotDialog}>
             <DialogTrigger asChild>
               <Button className="btn-government w-full sm:w-auto">
@@ -196,7 +198,7 @@ const DepotManagement = () => {
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>Create New Depot</DialogTitle>
+                <DialogTitle>{t('depotManagement.createDepot')}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -276,7 +278,7 @@ const DepotManagement = () => {
                 <Building className="h-4 w-4 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Depots</p>
+                <p className="text-sm text-muted-foreground">{t('depotManagement.totalDepots')}</p>
                 <p className="text-2xl font-bold">{depots.length}</p>
               </div>
             </div>

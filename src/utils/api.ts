@@ -112,8 +112,8 @@ class ApiClient {
 }
 
 // Create API clients for different services
-export const accountsApi = new ApiClient('https://kmrl-backend-qjvw.onrender.com/api/v1/accounts');
-export const fleetApi = new ApiClient('https://kmrl-backend-qjvw.onrender.com/api/v1/fleet-management');
-export const depotApi = new ApiClient('https://kmrl-backend-qjvw.onrender.com/api/v1/depot-management');
+export const accountsApi = new ApiClient('http://localhost:8000/api/v1/accounts');
+export const fleetApi = new ApiClient('http://localhost:8000/api/v1/fleet-management');
+export const depotApi = new ApiClient('http://localhost:8000/api/v1/depot-management');
 
 export default ApiClient;
